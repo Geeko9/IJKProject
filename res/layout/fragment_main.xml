@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    tools:context="com.geeko.proto.ijkproject.AppStarterActivity$PlaceholderFragment" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/iv_Main_Search_Image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_half"
+            android:src="@drawable/ic_action_search" />
+
+        <com.geeko.proto.ijkproject.app.widgets.ClearableEditText
+            android:id="@+id/cet_Main_Search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#FFDDDDDD" />
+
+    <TextView
+        android:id="@+id/tv_String_MyProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/string_myprofile"
+        android:textSize="@dimen/string_size_small"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dip"
+        android:background="#FFDDDDDD" />
+    
+    <ListView
+        android:id="@+id/lv_Main_Friends"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </ListView>
+
+</LinearLayout>

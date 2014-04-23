@@ -1,0 +1,24 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="center_vertical">
+
+    <EditText
+        android:id="@+id/et_Clearable_Search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:singleLine="true"
+        android:textSize="@dimen/string_size_nomal" />
+
+    <ImageView
+        android:id="@+id/iv_Clearable_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_action_remove" />
+
+</LinearLayout>

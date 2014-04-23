@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.geeko.proto.ijkproject.AppStarterActivity" >
+
+    <item
+        android:id="@+id/action_settings"
+        android:icon="@drawable/ic_action_core_overflow"
+        android:orderInCategory="100"
+        android:title="@string/action_settings"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_contacts"
+        android:icon="@drawable/ic_action_contacts"
+        android:title="@string/activity_name_contacts"
+        app:showAsAction="ifRoom"/>
+
+</menu>

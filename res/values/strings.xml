@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">일줄까</string>
+    <string name="project_name">POOMASI</string>
+    
+    <string name="string_like">즐겨찾기</string>
+    <string name="string_all">전체 리스트</string>
+    <string name="string_app_signup">가입신청</string>
+    <string name="string_app_finish">앱 종료</string>
+    <string name="string_change_profile">프로필 변경</string>
+    <string name="string_hint_nickname">이름 또는 닉네임 (3 ~ 6자)</string>
+    <string name="string_hint_password">암호 (6 ~ 8자)</string>
+    <string name="string_hint_search">이름검색</string>
+    <string name="string_myprofile">내정보</string>
+    
+    <string name="activity_name_contacts">연락처관리</string>
+    <string name="activity_name_contacts_add">연락처추가</string>
+    <string name="activity_name_contacts_del">연락처삭제</string>
+    <string name="activity_name_input_string">입력</string>
+    <string name="activity_name_setting">앱설정</string>
+    <string name="activity_name_signup">가입신청</string>
+    
+    <string name="action_add_contacts">추가</string>
+    <string name="action_del_contacts">삭제</string>
+    <string name="action_settings">설정</string>
+    
+</resources>

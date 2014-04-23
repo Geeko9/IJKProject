@@ -1,0 +1,11 @@
+<resources>
+
+    <dimen name="activity_horizontal_margin">8dp</dimen>
+    <dimen name="activity_vertical_margin">10dp</dimen>
+    <dimen name="activity_horizontal_margin_half">4dp</dimen>
+    <dimen name="activity_vertical_margin_half">5dp</dimen>
+    <dimen name="string_size_large">22sp</dimen>
+    <dimen name="string_size_nomal">18sp</dimen>
+    <dimen name="string_size_small">12sp</dimen>
+
+</resources>
