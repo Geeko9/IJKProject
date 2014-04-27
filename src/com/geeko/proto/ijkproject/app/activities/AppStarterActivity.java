@@ -18,6 +18,7 @@ import com.geeko.proto.ijkproject.app.MyApplication;
  * @version 1.1 April 18 2014
  * @since 1.0
  */
+//최초 실행 액티비티 로딩화면 구성 및 회원 가입 여부 확인하여 다음 액티비티를 확인하여 넘어가는 일을 수행한다.
 public class AppStarterActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +26,6 @@ public class AppStarterActivity extends Activity {
 		setContentView(R.layout.activity_app_stater);
 
 		new AppStarterAsyncTask().execute();
-
 	}
 
 	public class AppStarterAsyncTask extends AsyncTask<Void, Void, Void> {

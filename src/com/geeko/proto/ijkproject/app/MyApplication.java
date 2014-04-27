@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
-
 /**
  * Application for managing resources
  * 
@@ -18,9 +17,11 @@ import android.util.Log;
  */
 public class MyApplication extends Application {
 
+	// 시스템 로그 확인을 위한 태그 스트링
 	private static final String TAG = "MyApplication";
 	private static SharedPreferences pref;
 
+	// 앱에서 사용자 정보를 습득시 사용할 SharedPreferences name 스트링
 	public static final String PREFERENCE = "USERINFO";
 	public static final String PREFERENCE_PHONE = "PHONE";
 	public static final String PREFERENCE_NAME = "NAME";
@@ -54,27 +55,43 @@ public class MyApplication extends Application {
 		return context;
 	}
 
+	/**
+	 * Method that gets SharedPreference contain user-information
+	 * 
+	 * @return The application SharedPreference(name: USERINFO)
+	 */
 	public static SharedPreferences getUserSharedPreference() {
 		return pref;
 	}
 
+	/**
+	 * Method that sets context
+	 * 
+	 * @param context
+	 */
 	public static void setContext(Context context) {
 		MyApplication.context = context;
 	}
 
-	// 최초 실행인지 확인 후 사용자 정보를 생성 및 저장한다.
+	/**
+	 * Method that initialize the application
+	 */
 	private void initCheck() {
 		pref = getSharedPreferences(PREFERENCE, MODE_PRIVATE);
 
+		// 최초 실행인지 확인 후 사용자 정보(기기 전화번호)를 생성 및 저장한다.
 		if (!pref.getBoolean(PREFERENCE_INITIAL_PROCESS, false)) {
 			TelephonyManager tMgr = (TelephonyManager) getContext()
 					.getSystemService(Context.TELEPHONY_SERVICE);
+			
+			// mPhoneNumber(국제번호가 포함: +82)
 			String mPhoneNumber = tMgr.getLine1Number();
 			// mPhoneNumber = mPhoneNumber.replace("+82", "0");
-			Log.i(TAG, "phone: " + mPhoneNumber);
+			//Log.i(TAG, "phone: " + mPhoneNumber);
 
+			// 폰 번호 저장, 최초 실행을 확인 하기위한 값(SharedPreference: name="INITIAL_PROCESS")로 저장한다.
 			pref.edit().putString(PREFERENCE_PHONE, mPhoneNumber).commit();
-			pref.edit().putBoolean("INITIAL_PROCESS", true).commit();
+			pref.edit().putBoolean(PREFERENCE_INITIAL_PROCESS, true).commit();
 			// mDBHelper = new UsersTableDbHelper(context);
 		}
 	}

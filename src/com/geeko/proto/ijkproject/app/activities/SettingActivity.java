@@ -40,7 +40,18 @@ public class SettingActivity extends Activity {
 	private void init() {
 		tv_drop_user = (TextView) findViewById(R.id.tv_Setting_Drop);
 		alertDialog = new AlertDialog.Builder(SettingActivity.this);
+
 		input = new ClearableEditText(SettingActivity.this);
+		input.setInputType("password");
+
+		// LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+		// LinearLayout.LayoutParams.MATCH_PARENT,
+		// LinearLayout.LayoutParams.MATCH_PARENT);
+		// lp.setMarginStart(100);
+		// input.setLayoutParams(lp);
+
+		input.setPadding(30, 0, 30, 0);
+
 		asyncTaskDrop = new AsyncTaskDrop();
 
 		alertDialog.setView(input).setTitle("계정삭제")
@@ -49,7 +60,7 @@ public class SettingActivity extends Activity {
 
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						
+
 					}
 				})
 				.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
@@ -57,10 +68,14 @@ public class SettingActivity extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						String password = input.getText().toString();
-						if(password.equals(MyApplication.getUserSharedPreference().getString(MyApplication.PREFERENCE_PASSWORD, ""))){
-							asyncTaskDrop.execute(password); 
-						}else {
-							Toast.makeText(SettingActivity.this, "비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT).show();
+						if (password.equals(MyApplication
+								.getUserSharedPreference().getString(
+										MyApplication.PREFERENCE_PASSWORD, ""))) {
+							asyncTaskDrop.execute(password);
+						} else {
+							Toast.makeText(SettingActivity.this,
+									"비밀번호가 일치하지 않습니다.", Toast.LENGTH_SHORT)
+									.show();
 						}
 					}
 				});
@@ -77,7 +92,7 @@ public class SettingActivity extends Activity {
 	public class AsyncTaskDrop extends AsyncTask<String, Void, Void> {
 
 		HttpRequest httpRequest = new HttpRequest();
-		
+
 		@Override
 		protected Void doInBackground(String... params) {
 			try {
