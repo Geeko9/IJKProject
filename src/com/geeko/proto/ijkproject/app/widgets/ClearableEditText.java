@@ -19,7 +19,7 @@ import com.geeko.proto.ijkproject.R;
  * This class is used to customize LinearLayout. This layout can clear text in
  * EditText(et_text) using ImageView(iv_clear).
  * 
- * @author Geeko
+ * @author Kim Seonyong
  * @version 1.1 April 20 2014
  * @since 1.1
  */

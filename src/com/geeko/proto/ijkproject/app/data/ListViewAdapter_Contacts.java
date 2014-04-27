@@ -2,7 +2,6 @@ package com.geeko.proto.ijkproject.app.data;
 
 import java.util.ArrayList;
 
-import android.content.ClipData.Item;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,9 @@ import android.widget.TextView;
 import com.geeko.proto.ijkproject.R;
 
 /**
- * Created by Seonyong on 2014-03-26.
+ * @author Kim Seonyong
+ * @version 1.1 April 23 2014
+ * @since 1.1
  */
 public class ListViewAdapter_Contacts extends BaseAdapter {
 	private Context mContext = null;
@@ -50,9 +51,9 @@ public class ListViewAdapter_Contacts extends BaseAdapter {
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.item_contacts_manage, null);
 
-			holder.mName = (TextView) convertView.findViewById(R.id.tvItemName);
+			holder.mName = (TextView) convertView.findViewById(R.id.tv_Item_Name);
 			holder.mPhone = (TextView) convertView
-					.findViewById(R.id.tvItemPhone);
+					.findViewById(R.id.tv_Item_Phone);
 
 			convertView.setTag(holder);
 		} else {

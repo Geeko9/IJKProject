@@ -5,14 +5,20 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.geeko.proto.ijkproject.R;
+import com.geeko.proto.ijkproject.app.MyApplication;
 import com.geeko.proto.ijkproject.app.widgets.ClearableEditText;
 
 /**
  * A placeholder fragment containing a simple view.
  */
 public class PlaceholderFragment extends Fragment {
+
+	private ImageView profileImage;
+	private TextView profileLocation, profileName;
 
 	public PlaceholderFragment() {
 
@@ -34,9 +40,21 @@ public class PlaceholderFragment extends Fragment {
 	}
 
 	private void init() {
+
 		ClearableEditText cet_search = (ClearableEditText) getView()
 				.findViewById(R.id.cet_Main_Search);
 		cet_search.setHint(getResources()
 				.getString(R.string.string_hint_search));
+
+		profileLocation = (TextView) getView().findViewById(
+				R.id.tv_Main_Profile_Location);
+		profileName = (TextView) getView().findViewById(
+				R.id.tv_Main_Profile_Name);
+
+		profileLocation.setText(MyApplication.getUserSharedPreference()
+				.getString(MyApplication.PREFERENCE_REGION, ""));
+		profileName.setText(MyApplication.getUserSharedPreference().getString(
+				MyApplication.PREFERENCE_NAME, ""));
+
 	}
 }

@@ -1,5 +1,6 @@
 package com.geeko.proto.ijkproject.app.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -14,7 +15,7 @@ import com.geeko.proto.ijkproject.app.fragment.PlaceholderFragment;
  * This activity is used to get resources from device DB(SQLite) and show them
  * using ListView
  * 
- * @author Geeko
+ * @author Kim Seonyong
  * @version 1.1 April 18 2014
  * @since 1.0
  */
@@ -40,7 +41,16 @@ public class MainActivity extends ActionBarActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
+		Intent intent;
 		if (id == R.id.action_settings) {
+			intent = new Intent(MainActivity.this, SettingActivity.class);
+			MainActivity.this.startActivity(intent);
+			overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+			return true;
+		} else if (id == R.id.action_contacts) {
+			intent = new Intent(MainActivity.this, SettingActivity.class);
+			MainActivity.this.startActivity(intent);
+			overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

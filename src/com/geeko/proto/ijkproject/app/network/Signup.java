@@ -3,6 +3,11 @@ package com.geeko.proto.ijkproject.app.network;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.Root;
 
+/**
+ * @author Kim Seonyong
+ * @version 1.1 April 23 2014
+ * @since 1.1
+ */
 @Root
 public class Signup {
 

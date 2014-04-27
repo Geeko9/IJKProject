@@ -5,7 +5,7 @@ import java.util.List;
 import android.os.AsyncTask;
 
 /**
- * @author Geeko
+ * @author Kim Seonyong
  * @version 1.1 April 20 2014
  * @since 1.1
  */

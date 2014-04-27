@@ -14,7 +14,7 @@ import com.geeko.proto.ijkproject.app.MyApplication;
  * This activity is used to get resources that need before MainActivity is
  * started.
  * 
- * @author Geeko
+ * @author Kim Seonyong
  * @version 1.1 April 18 2014
  * @since 1.0
  */

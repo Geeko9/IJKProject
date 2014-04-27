@@ -6,12 +6,13 @@ import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+
 /**
  * Application for managing resources
  * 
  * This class is used to get values like context, dbHelper and sharedPreference.
  * 
- * @author Geeko
+ * @author Kim Seonyong
  * @version 1.1 April 18 2014
  * @since 1.0
  */
@@ -23,6 +24,7 @@ public class MyApplication extends Application {
 	public static final String PREFERENCE = "USERINFO";
 	public static final String PREFERENCE_PHONE = "PHONE";
 	public static final String PREFERENCE_NAME = "NAME";
+	public static final String PREFERENCE_PASSWORD = "PASSWORD";
 	public static final String PREFERENCE_REGION = "REGION";
 	public static final String PREFERENCE_PERIOD = "PERIOD";
 	public static final String PREFERENCE_STATUS = "STATUS";

@@ -1,13 +1,12 @@
 package com.geeko.proto.ijkproject.app.network;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
@@ -17,14 +16,18 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import com.geeko.proto.ijkproject.app.MyApplication;
+
 /**
- * Created by Seonyong on 2014-04-09.
+ * @author Kim Seonyong
+ * @version 1.1 April 23 2014
+ * @since 1.1
  */
 public class HttpRequest {
 	HttpClient client = new DefaultHttpClient();
 	String url = "http://54.199.134.156:3000/ijk/";
 	String res = null;
-
+	private List<BasicNameValuePair> params;
 
 	// params.add(new BasicNameValuePair("name", "value"));
 
@@ -46,11 +49,33 @@ public class HttpRequest {
 
 		if (resEntity != null) {
 			res = EntityUtils.toString(resEntity, HTTP.UTF_8);
-			//String res = EntityUtils.toString(resEntity);
+			// String res = EntityUtils.toString(resEntity);
 			System.out.println(res);
-			return String.valueOf(responsePost.getStatusLine().getStatusCode());
+			// return
+			// String.valueOf(responsePost.getStatusLine().getStatusCode());
 		}
 		return String.valueOf(responsePost.getStatusLine().getStatusCode());
+	}
+
+	public String httpRequestDelete(String path, String type, String str)
+			throws IOException {
+		if (type.equals("account")) {
+			String phoneno = "phoneno=" + MyApplication.getUserSharedPreference().getString(MyApplication.PREFERENCE_PHONE, "");
+			String passwd = "passwd=" + str;
+			path = path + "?" + phoneno + "&" + passwd;
+		}
+		HttpDelete delete = new HttpDelete(url + path);
+
+		HttpResponse responseDelete = client.execute(delete);
+		HttpEntity resEntity = responseDelete.getEntity();
+		if (resEntity != null) {
+			res = EntityUtils.toString(resEntity, HTTP.UTF_8);
+			// String res = EntityUtils.toString(resEntity);
+			System.out.println(res);
+			// return
+			// String.valueOf(responseDelete.getStatusLine().getStatusCode());
+		}
+		return String.valueOf(responseDelete.getStatusLine().getStatusCode());
 	}
 
 	public String httpRequestPut(String path, List nameValue, String body)
@@ -65,7 +90,7 @@ public class HttpRequest {
 			// params.add(new BasicNameValuePair("PhoneNumber", "01012345678"));
 			// UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params,
 			// HTTP.UTF_8);
-			//put.setEntity(ent);
+			// put.setEntity(ent);
 		} else if (body != null) {
 			StringEntity ent = new StringEntity(body, HTTP.UTF_8);
 			put.setEntity(ent);
@@ -100,7 +125,7 @@ public class HttpRequest {
 		return null;
 	}
 
-	public String getRes(){
+	public String getRes() {
 		return this.res;
 	}
 }
