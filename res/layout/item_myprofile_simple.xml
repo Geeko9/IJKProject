@@ -6,52 +6,45 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/activity_vertical_margin_half"
+        android:paddingTop="@dimen/activity_vertical_margin_half" >
 
         <ImageView
-            android:id="@+id/iv_Item"
+            android:id="@+id/iv_Main_SimpleProfile_Image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:src="@drawable/ic_person" />
 
-       <LinearLayout
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical" >
 
             <TextView
-                android:id="@+id/tv_Item_NameNPhone"
+                android:id="@+id/tv_Main_SimpleProfile_Region"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/string_size_nomal" />
+                android:layout_gravity="top"
+                android:textSize="@dimen/string_size_small" />
 
             <TextView
-                android:id="@+id/tv_Item_Location"
+                android:id="@+id/tv_Main_SimpleProfile_Name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/string_size_nomal" />
-
         </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/ib_Item_Call"
+        <TextView
+            android:id="@+id/tv_Main_SimpleProfile_Message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="@dimen/activity_horizontal_margin_half"
-            android:background="@null"
-            android:src="@drawable/ic_device_access_call" />
-
-        <ImageButton
-            android:id="@+id/ib_Item_Sms"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@null"
-            android:src="@drawable/ic_content_email" />
+            android:textSize="@dimen/string_size_nomal" />
     </LinearLayout>
 
 </LinearLayout>

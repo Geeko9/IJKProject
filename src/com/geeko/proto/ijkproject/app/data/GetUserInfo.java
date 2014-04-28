@@ -24,4 +24,9 @@ public class GetUserInfo {
 		return sharedPreferences.getString(MyApplication.PREFERENCE_PHONE, "")
 				.replace("+82", "0");
 	}
+
+	public String getNomalNumber() {
+		return sharedPreferences.getString(MyApplication.PREFERENCE_PHONE, "")
+				.replace("+", "");
+	}
 }

@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 /**
  * Application for managing resources
@@ -84,8 +83,8 @@ public class MyApplication extends Application {
 			TelephonyManager tMgr = (TelephonyManager) getContext()
 					.getSystemService(Context.TELEPHONY_SERVICE);
 			
-			// mPhoneNumber(국제번호가 포함: +82)
-			String mPhoneNumber = tMgr.getLine1Number();
+			// mPhoneNumber(국제번호가 포함: 82)
+			String mPhoneNumber = tMgr.getLine1Number().replace("+", "");
 			// mPhoneNumber = mPhoneNumber.replace("+82", "0");
 			//Log.i(TAG, "phone: " + mPhoneNumber);
 

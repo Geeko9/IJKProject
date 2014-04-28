@@ -76,11 +76,11 @@ public class SignUpActivity extends Activity {
 				phoneNumber = tv_phone.getText().toString();
 				nickname = cet_name.getText().toString();
 				password = cet_pass.getText().toString();
-
-				if (cet_pass.getTextSize() < 6) {
-					Toast.makeText(MyApplication.getContext(), "패스워드는 6자 이상 8자 이하로 입력 해 주시기 바랍니다.", Toast.LENGTH_SHORT).show();
-				} else if (cet_name.getTextSize() < 3) {
+				
+				if (cet_name.getTextSize() < 3) {
 					Toast.makeText(MyApplication.getContext(), "닉네임은 3자 이상 6자 이하로 입력 해 주시기 바랍니다.", Toast.LENGTH_SHORT).show();
+				} else if (cet_pass.getTextSize() < 6) {
+					Toast.makeText(MyApplication.getContext(), "패스워드는 6자 이상 8자 이하로 입력 해 주시기 바랍니다.", Toast.LENGTH_SHORT).show();
 				} else {
 					ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 					try {
@@ -88,7 +88,7 @@ public class SignUpActivity extends Activity {
 						serializer.write(new Signup(phoneNumber, nickname, password), byteOutput);
 
 						if (new SignUpAsyncTask().execute(byteOutput.toString()).equals("200")) {
-
+							
 						}
 					} catch (Exception e) {
 						e.printStackTrace();

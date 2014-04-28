@@ -4,9 +4,13 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -25,9 +29,9 @@ import com.geeko.proto.ijkproject.app.widgets.ClearableEditText;
 public class SettingActivity extends Activity {
 
 	private TextView tv_drop_user;
-	AlertDialog.Builder alertDialog;
-	ClearableEditText input;
-	AsyncTaskDrop asyncTaskDrop;
+	private AlertDialog.Builder alertDialog;
+	private ClearableEditText input;
+	private AsyncTaskDrop asyncTaskDrop;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,31 +44,16 @@ public class SettingActivity extends Activity {
 	private void init() {
 		tv_drop_user = (TextView) findViewById(R.id.tv_Setting_Drop);
 		alertDialog = new AlertDialog.Builder(SettingActivity.this);
-
-		input = new ClearableEditText(SettingActivity.this);
-		input.setInputType("password");
-
-		// LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-		// LinearLayout.LayoutParams.MATCH_PARENT,
-		// LinearLayout.LayoutParams.MATCH_PARENT);
-		// lp.setMarginStart(100);
-		// input.setLayoutParams(lp);
-
-		input.setPadding(30, 0, 30, 0);
-
 		asyncTaskDrop = new AsyncTaskDrop();
 
-		alertDialog.setView(input).setTitle("계정삭제")
-				.setMessage("암호를 입력하시면 해당 계정 삭제가 가능합니다.")
+		alertDialog.setTitle("계정삭제").setMessage("암호를 입력하시면 해당 계정 삭제가 가능합니다.")
 				.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 
 					}
 				})
-				.setNegativeButton("삭제", new DialogInterface.OnClickListener() {
-
+				.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						String password = input.getText().toString();
@@ -84,29 +73,53 @@ public class SettingActivity extends Activity {
 
 			@Override
 			public void onClick(View v) {
+				input = new ClearableEditText(SettingActivity.this);
+				input.setInputType("password");
+				input.setPadding(30, 0, 30, 0);
+				alertDialog.setView(input);
 				alertDialog.show();
 			}
 		});
 	}
 
-	public class AsyncTaskDrop extends AsyncTask<String, Void, Void> {
+	public class AsyncTaskDrop extends AsyncTask<String, Void, String> {
 
 		HttpRequest httpRequest = new HttpRequest();
 
 		@Override
-		protected Void doInBackground(String... params) {
+		protected String doInBackground(String... params) {
+			String result = null;
 			try {
-				httpRequest.httpRequestDelete("account/", "account", params[0]);
+				result = httpRequest.httpRequestDelete("account/", "account",
+						params[0]);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			return null;
+			return result;
 		}
 
 		@Override
-		protected void onPostExecute(Void result) {
-
+		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
+			if (result.equals("200")) {
+				MyApplication
+						.getUserSharedPreference()
+						.edit()
+						.putBoolean(MyApplication.PREFERENCE_SIGNUP_CHECK,
+								false).commit();
+				MyApplication.getUserSharedPreference().edit()
+						.putString(MyApplication.PREFERENCE_SIGN_KEY, "")
+						.commit();
+				Toast.makeText(SettingActivity.this, "삭제가 완료되었습니다.",
+						Toast.LENGTH_SHORT).show();
+
+				Intent i = getBaseContext().getPackageManager()
+						.getLaunchIntentForPackage(
+								getBaseContext().getPackageName());
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+			} else {
+			}
 		}
 	}
 }

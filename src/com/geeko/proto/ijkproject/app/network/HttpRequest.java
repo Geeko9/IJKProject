@@ -16,7 +16,9 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
-import com.geeko.proto.ijkproject.app.MyApplication;
+import android.util.Log;
+
+import com.geeko.proto.ijkproject.app.data.GetUserInfo;
 
 /**
  * @author Kim Seonyong
@@ -60,12 +62,12 @@ public class HttpRequest {
 	public String httpRequestDelete(String path, String type, String str)
 			throws IOException {
 		if (type.equals("account")) {
-			String phoneno = "phoneno=" + MyApplication.getUserSharedPreference().getString(MyApplication.PREFERENCE_PHONE, "");
+			String phoneno = "phoneno=" + new GetUserInfo().getOriginNumber();
 			String passwd = "passwd=" + str;
 			path = path + "?" + phoneno + "&" + passwd;
 		}
 		HttpDelete delete = new HttpDelete(url + path);
-
+		Log.i("HttpRequest", url + path);
 		HttpResponse responseDelete = client.execute(delete);
 		HttpEntity resEntity = responseDelete.getEntity();
 		if (resEntity != null) {
@@ -75,6 +77,7 @@ public class HttpRequest {
 			// return
 			// String.valueOf(responseDelete.getStatusLine().getStatusCode());
 		}
+		//Log.i("HttpRequestDelete Log", "request tyep: " + delete.getMethod()  +" "+String.valueOf(responseDelete.getStatusLine().getStatusCode()));
 		return String.valueOf(responseDelete.getStatusLine().getStatusCode());
 	}
 
