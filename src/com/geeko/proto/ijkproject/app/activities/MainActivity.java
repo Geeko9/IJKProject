@@ -25,11 +25,17 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		return super.onPrepareOptionsMenu(menu);
 	}
 
 	@Override
@@ -48,7 +54,7 @@ public class MainActivity extends ActionBarActivity {
 			overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 			return true;
 		} else if (id == R.id.action_contacts) {
-			intent = new Intent(MainActivity.this, SettingActivity.class);
+			intent = new Intent(MainActivity.this, ContactsActivity.class);
 			MainActivity.this.startActivity(intent);
 			overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 			return true;

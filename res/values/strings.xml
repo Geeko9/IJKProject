@@ -3,7 +3,6 @@
 
     <string name="app_name">일줄까</string>
     <string name="project_name">POOMASI</string>
-    
     <string name="string_like">즐겨찾기</string>
     <string name="string_title_list">리스트</string>
     <string name="string_app_signup">가입신청</string>
@@ -18,17 +17,15 @@
     <string name="string_profile_region">활동지역</string>
     <string name="string_profile_period">경력사항</string>
     <string name="string_profile_machine">장비</string>
-    
-    
     <string name="activity_name_contacts">연락처관리</string>
     <string name="activity_name_contacts_add">연락처추가</string>
     <string name="activity_name_contacts_del">연락처삭제</string>
     <string name="activity_name_input_string">입력</string>
     <string name="activity_name_setting">앱설정</string>
     <string name="activity_name_signup">가입신청</string>
-    
     <string name="action_add_contacts">추가</string>
     <string name="action_del_contacts">삭제</string>
     <string name="action_settings">설정</string>
-    
+    <string name="dummy_section_text">Section %1d is just a dummy section.</string>
+
 </resources>

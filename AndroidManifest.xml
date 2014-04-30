@@ -45,6 +45,11 @@
             android:label="@string/activity_name_setting"
             android:theme="@style/CustomActionBarTheme" >
         </activity>
+        <activity
+            android:name="com.geeko.proto.ijkproject.app.activities.ContactsActivity"
+            android:label="@string/activity_name_contacts"
+            android:theme="@style/CustomActionBarTheme" >
+        </activity>
     </application>
 
 </manifest>

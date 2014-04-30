@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 
+import com.geeko.proto.ijkproject.app.data.db.UsersTableDbHelper;
+
 /**
  * Application for managing resources
  * 
@@ -19,6 +21,7 @@ public class MyApplication extends Application {
 	// 시스템 로그 확인을 위한 태그 스트링
 	private static final String TAG = "MyApplication";
 	private static SharedPreferences pref;
+	private static UsersTableDbHelper mDbHelper;
 
 	// 앱에서 사용자 정보를 습득시 사용할 SharedPreferences name 스트링
 	public static final String PREFERENCE = "USERINFO";
@@ -91,7 +94,11 @@ public class MyApplication extends Application {
 			// 폰 번호 저장, 최초 실행을 확인 하기위한 값(SharedPreference: name="INITIAL_PROCESS")로 저장한다.
 			pref.edit().putString(PREFERENCE_PHONE, mPhoneNumber).commit();
 			pref.edit().putBoolean(PREFERENCE_INITIAL_PROCESS, true).commit();
-			// mDBHelper = new UsersTableDbHelper(context);
+			mDbHelper = new UsersTableDbHelper(context);
 		}
 	}
+	
+    public static UsersTableDbHelper getDbHelper() {
+        return MyApplication.mDbHelper;
+    }
 }
