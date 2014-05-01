@@ -32,6 +32,7 @@ public class SignUpActivity extends Activity {
 	TextView tv_phone;
 	Button btn_signup;
 	ClearableEditText cet_name, cet_pass;
+	String phoneNumber, password, nickname;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,23 +73,28 @@ public class SignUpActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 
-				String phoneNumber, password, nickname;
 				phoneNumber = tv_phone.getText().toString();
 				nickname = cet_name.getText().toString();
 				password = cet_pass.getText().toString();
-				
+
 				if (cet_name.getTextSize() < 3) {
-					Toast.makeText(MyApplication.getContext(), "닉네임은 3자 이상 6자 이하로 입력 해 주시기 바랍니다.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(MyApplication.getContext(),
+							"닉네임은 3자 이상 6자 이하로 입력 해 주시기 바랍니다.",
+							Toast.LENGTH_SHORT).show();
 				} else if (cet_pass.getTextSize() < 6) {
-					Toast.makeText(MyApplication.getContext(), "패스워드는 6자 이상 8자 이하로 입력 해 주시기 바랍니다.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(MyApplication.getContext(),
+							"패스워드는 6자 이상 8자 이하로 입력 해 주시기 바랍니다.",
+							Toast.LENGTH_SHORT).show();
 				} else {
 					ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 					try {
 						Serializer serializer = new Persister();
-						serializer.write(new Signup(phoneNumber, nickname, password), byteOutput);
+						serializer.write(new Signup(phoneNumber, nickname,
+								password), byteOutput);
 
-						if (new SignUpAsyncTask().execute(byteOutput.toString()).equals("200")) {
-							
+						if (new SignUpAsyncTask()
+								.execute(byteOutput.toString()).equals("200")) {
+
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -121,19 +127,106 @@ public class SignUpActivity extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
-			if (result.equals("200")) {
-				MyApplication.getUserSharedPreference().edit().putBoolean(MyApplication.PREFERENCE_SIGNUP_CHECK, true).commit();
-				MyApplication.getUserSharedPreference().edit().putString(MyApplication.PREFERENCE_SIGN_KEY, httpRequest.getRes()).commit();
-				MyApplication.getUserSharedPreference().edit().putString(MyApplication.PREFERENCE_NAME, cet_name.getText().toString()).commit();
-				MyApplication.getUserSharedPreference().edit().putString(MyApplication.PREFERENCE_PASSWORD, cet_pass.getText().toString()).commit();
+			if (result != null) {
+				if (result.equals("200")) {
+					MyApplication
+							.getUserSharedPreference()
+							.edit()
+							.putBoolean(MyApplication.PREFERENCE_SIGNUP_CHECK,
+									true).commit();
+					MyApplication
+							.getUserSharedPreference()
+							.edit()
+							.putString(MyApplication.PREFERENCE_SIGN_KEY,
+									httpRequest.getRes()).commit();
+					MyApplication
+							.getUserSharedPreference()
+							.edit()
+							.putString(MyApplication.PREFERENCE_NAME,
+									cet_name.getText().toString()).commit();
+					MyApplication
+							.getUserSharedPreference()
+							.edit()
+							.putString(MyApplication.PREFERENCE_PASSWORD,
+									cet_pass.getText().toString()).commit();
 
-				SignUpActivity.this.startActivity(new Intent(SignUpActivity.this, MainActivity.class));
-				overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-				SignUpActivity.this.finish();
+					SignUpActivity.this.startActivity(new Intent(
+							SignUpActivity.this, MainActivity.class));
+					overridePendingTransition(android.R.anim.fade_in,
+							android.R.anim.fade_out);
+					SignUpActivity.this.finish();
 
-			} else {
-				Toast.makeText(MyApplication.getContext(), "네트워크 에러" + "\n" + "데이터 네트워크 확인 바랍니다.", Toast.LENGTH_SHORT).show();
+					Toast.makeText(MyApplication.getContext(), "가입을 축하드립니다.",
+							Toast.LENGTH_SHORT).show();
+
+				} else {
+					new ReSignUpAsyncTask().execute(password);
+					// Toast.makeText(MyApplication.getContext(),
+					// "네트워크 에러" + "\n" + "데이터 네트워크 확인 바랍니다.",
+					// Toast.LENGTH_SHORT).show();
+				}
+				// new ReSignUpAsyncTask().execute(password);
 			}
 		}
+	}
+
+	private class ReSignUpAsyncTask extends AsyncTask<String, Void, String> {
+
+		HttpRequest httpRequest = new HttpRequest();
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			try {
+				result = httpRequest.httpRequestGet("account/", params[0]);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				if (result.equals("200")) {
+					MyApplication
+							.getUserSharedPreference()
+							.edit()
+							.putBoolean(MyApplication.PREFERENCE_SIGNUP_CHECK,
+									true).commit();
+					MyApplication
+							.getUserSharedPreference()
+							.edit()
+							.putString(MyApplication.PREFERENCE_SIGN_KEY,
+									httpRequest.getRes()).commit();
+					MyApplication
+							.getUserSharedPreference()
+							.edit()
+							.putString(MyApplication.PREFERENCE_NAME,
+									cet_name.getText().toString()).commit();
+					MyApplication
+							.getUserSharedPreference()
+							.edit()
+							.putString(MyApplication.PREFERENCE_PASSWORD,
+									cet_pass.getText().toString()).commit();
+
+					SignUpActivity.this.startActivity(new Intent(
+							SignUpActivity.this, MainActivity.class));
+					overridePendingTransition(android.R.anim.fade_in,
+							android.R.anim.fade_out);
+					SignUpActivity.this.finish();
+
+					Toast.makeText(MyApplication.getContext(), "재인증 되었습니다.",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(MyApplication.getContext(),
+							"네트워크 에러" + "\n" + "데이터 네트워크 확인 바랍니다." + result,
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
+
 	}
 }

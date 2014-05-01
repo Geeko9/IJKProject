@@ -23,6 +23,7 @@ import com.geeko.proto.ijkproject.R;
 public class ListViewAdapter_Main extends BaseAdapter {
 	private Context mContext = null;
 	private ArrayList<Item> mListData = new ArrayList<Item>();
+	Intent intent;
 
 	public ListViewAdapter_Main(Context mContext) {
 		super();
@@ -47,6 +48,7 @@ public class ListViewAdapter_Main extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
+
 		if (convertView == null) {
 			holder = new ViewHolder();
 
@@ -77,26 +79,30 @@ public class ListViewAdapter_Main extends BaseAdapter {
 			holder.mIcon.setVisibility(View.VISIBLE);
 			holder.mIcon.setImageDrawable(mData.getIcon());
 		} else {
-			holder.mIcon.setVisibility(View.GONE);
+			holder.mIcon.setImageResource(R.drawable.ic_person);
 		}
 
 		holder.mNameNPhone.setText(mData.getName() + " " + mData.getPhone());
 		holder.mLocation.setText(mData.getLocation());
-		holder.mMachine.setText(mData.getMachine());
+		//holder.mMachine.setText(mData.getMachine());
 
 		holder.phoneCall.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mContext.startActivity(new Intent(Intent.ACTION_DIAL)
-						.setData(Uri.parse("tel:" + mData.getPhone())));
+				intent = new Intent(Intent.ACTION_DIAL)
+				.setData(Uri.parse("tel:" + mData.getPhone()));
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				mContext.startActivity(intent);
 			}
 		});
 
 		holder.sendSMS.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mContext.startActivity(new Intent(Intent.ACTION_SENDTO, Uri
-						.parse("smsto:" + mData.getPhone())));
+				intent = new Intent(Intent.ACTION_SENDTO, Uri
+						.parse("smsto:" + mData.getPhone())); 
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				mContext.startActivity(intent);
 			}
 		});
 

@@ -77,7 +77,8 @@ public class HttpRequest {
 			// return
 			// String.valueOf(responseDelete.getStatusLine().getStatusCode());
 		}
-		//Log.i("HttpRequestDelete Log", "request tyep: " + delete.getMethod()  +" "+String.valueOf(responseDelete.getStatusLine().getStatusCode()));
+		// Log.i("HttpRequestDelete Log", "request tyep: " + delete.getMethod()
+		// +" "+String.valueOf(responseDelete.getStatusLine().getStatusCode()));
 		return String.valueOf(responseDelete.getStatusLine().getStatusCode());
 	}
 
@@ -114,21 +115,32 @@ public class HttpRequest {
 		return String.valueOf(responsePost.getStatusLine().getStatusCode());
 	}
 
-	public String httpRequestGet(String path) throws IOException {
-		HttpGet get = new HttpGet(url + path);
-		// ?”ë?
+	public String httpRequestGet(String path, String str) throws IOException {
+
+		HttpGet get;
+		if (path.equals("account/")) {
+			get = new HttpGet(url + path + "?phoneno="
+					+ new GetUserInfo().getNomalNumber() + "&passwd=" + str);
+		} else {
+			get = new HttpGet(url + path);
+		}
+
 		HttpResponse responseGet = client.execute(get);
 		HttpEntity resEntity = responseGet.getEntity();
 		if (resEntity != null) {
-			String res = EntityUtils.toString(resEntity, HTTP.UTF_8);
+			res = EntityUtils.toString(resEntity, HTTP.UTF_8);
 			// String res = EntityUtils.toString(resEntity);
 			// System.out.println(res);
-			return res;
+			return String.valueOf(responseGet.getStatusLine().getStatusCode());
 		}
 		return null;
 	}
 
 	public String getRes() {
 		return this.res;
+	}
+	
+	public String getStatusCode(HttpResponse httpResponse){
+		return String.valueOf(httpResponse.getStatusLine().getStatusCode());
 	}
 }

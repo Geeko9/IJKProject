@@ -89,6 +89,6 @@ public class ListViewAdapter_Contacts extends BaseAdapter {
 	private class ViewHolder {
 		public TextView mName;
 		public TextView mPhone;
-		public CheckBox mCheckBox;
+		//public CheckBox mCheckBox;
 	}
 }

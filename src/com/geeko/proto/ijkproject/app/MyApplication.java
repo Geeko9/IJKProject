@@ -94,8 +94,9 @@ public class MyApplication extends Application {
 			// 폰 번호 저장, 최초 실행을 확인 하기위한 값(SharedPreference: name="INITIAL_PROCESS")로 저장한다.
 			pref.edit().putString(PREFERENCE_PHONE, mPhoneNumber).commit();
 			pref.edit().putBoolean(PREFERENCE_INITIAL_PROCESS, true).commit();
-			mDbHelper = new UsersTableDbHelper(context);
+			//mDbHelper = new UsersTableDbHelper(context);
 		}
+		mDbHelper = new UsersTableDbHelper(context);
 	}
 	
     public static UsersTableDbHelper getDbHelper() {

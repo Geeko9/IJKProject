@@ -24,6 +24,18 @@ public class Profile implements Comparable<Profile> {
 	@Element(required = false)
 	private int WorkingPeriod;
 
+	public void setUserStatus(String userStatus) {
+		UserStatus = userStatus;
+	}
+
+	public void setRegion(String region) {
+		Region = region;
+	}
+
+	public void setWorkingPeriod(int workingPeriod) {
+		WorkingPeriod = workingPeriod;
+	}
+
 	public void setPhoneNumber() {
 		this.PhoneNumber = "0" + this.PhoneNumber.substring(2);
 	}
@@ -63,6 +75,10 @@ public class Profile implements Comparable<Profile> {
 
 	public Profile(String phoneNumber, String nickName) {
 		this.setPhoneNumber(phoneNumber);
+		this.setNickName(nickName);
+	}
+
+	public Profile(String nickName) {
 		this.setNickName(nickName);
 	}
 }

@@ -16,6 +16,13 @@
 
 package com.geeko.proto.ijkproject.app.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,10 +32,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.geeko.proto.ijkproject.R;
+import com.geeko.proto.ijkproject.app.MyApplication;
+import com.geeko.proto.ijkproject.app.data.db.Table.UsersTableEntry;
+import com.geeko.proto.ijkproject.app.data.db.UsersTableDbHelper;
+import com.geeko.proto.ijkproject.app.network.Profile;
 
 public class ContactsActivity extends ActionBarActivity implements
 		ActionBar.TabListener {
@@ -87,7 +103,6 @@ public class ContactsActivity extends ActionBarActivity implements
 						actionBar.setSelectedNavigationItem(position);
 					}
 				});
-
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with text corresponding to the page title defined by
@@ -175,12 +190,115 @@ public class ContactsActivity extends ActionBarActivity implements
 	 */
 	public static class ContactsFragment extends Fragment {
 
+		String tag = null;
+
 		@Override
 		public View onCreateView(LayoutInflater inflater, ViewGroup container,
 				Bundle savedInstanceState) {
 			View rootView = inflater.inflate(R.layout.fragment_contacts,
 					container, false);
+			ListView listView = (ListView) rootView
+					.findViewById(R.id.lv_Contacts);
+
+			List<String> nameList = new ArrayList<String>();
+			UsersTableDbHelper helper = MyApplication.getDbHelper();
+			// Select All Query
+			String selectQuery = "SELECT " + UsersTableEntry.COLUMN_NAME_NAME
+					+ " FROM " + UsersTableEntry.TABLE_NAME;
+			SQLiteDatabase db = helper.getWritableDatabase();
+			Cursor cursor = db.rawQuery(selectQuery, null);
+			// looping through all rows and adding to list
+			if (cursor.moveToFirst()) {
+				do {
+					String name = new String(cursor.getString(0));
+					// contact.setNickName(cursor.getString(1));
+					// Adding contact to list
+					nameList.add(name);
+				} while (cursor.moveToNext());
+			}// return contact list
+
+			ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+					MyApplication.getContext(),
+					android.R.layout.simple_list_item_1) {
+
+				@Override
+				public View getView(int position, View convertView,
+						ViewGroup parent) {
+					View view = super.getView(position, convertView, parent);
+
+					TextView textView = (TextView) view
+							.findViewById(android.R.id.text1);
+
+					/* YOUR CHOICE OF COLOR */
+					textView.setTextColor(Color.BLACK);
+
+					return view;
+				}
+			};
+
+			// ArrayAdapter mAdapter = new
+			// ArrayAdapter<Profile>(MyApplication.getContext(),
+			// android.R.layout.simple_list_item_1)
+			adapter.addAll(nameList);
+			listView.setAdapter(adapter);
+
 			return rootView;
 		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.contacts, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		int id = item.getItemId();
+		Intent intent;
+		if (id == R.id.action_add) {
+			intent = new Intent(ContactsActivity.this,
+					ContactsAddActivity.class);
+			ContactsActivity.this.startActivity(intent);
+			overridePendingTransition(android.R.anim.fade_in,
+					android.R.anim.fade_out);
+			return true;
+		} else if (id == R.id.action_del) {
+			intent = new Intent(ContactsActivity.this,
+					ContactsDelActivity.class);
+			ContactsActivity.this.startActivity(intent);
+			overridePendingTransition(android.R.anim.fade_in,
+					android.R.anim.fade_out);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	public List<Profile> getAllContacts() {
+		List<Profile> contactList = new ArrayList<Profile>();
+		UsersTableDbHelper helper = MyApplication.getDbHelper();
+		// Select All Query
+		String selectQuery = "SELECT " + UsersTableEntry.COLUMN_NAME_NAME
+				+ " FROM " + UsersTableEntry.TABLE_NAME;
+		SQLiteDatabase db = helper.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+		// looping through all rows and adding to list
+		if (cursor.moveToFirst()) {
+			do {
+				Profile contact = new Profile(cursor.getString(0));
+				// contact.setNickName(cursor.getString(1));
+				// Adding contact to list
+				contactList.add(contact);
+			} while (cursor.moveToNext());
+		}// return contact list
+		return contactList;
+	}
+	
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		Intent i = new Intent(ContactsActivity.this, ContactsActivity.class); // your class
+		startActivity(i);
+		finish();
 	}
 }

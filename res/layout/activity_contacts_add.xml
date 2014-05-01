@@ -2,12 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin" >
 
     <com.geeko.proto.ijkproject.app.widgets.ClearableEditText
-        android:id="@+id/cet_Contacts_Search"
+        android:id="@+id/cet_Contacts_Add_Search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
@@ -25,14 +27,14 @@
         android:layout_height="wrap_content"
         android:text="@string/string_title_list"
         android:textSize="@dimen/string_size_small" />
-    
-     <View
+
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dip"
         android:background="#FFDDDDDD" />
 
     <ListView
-        android:id="@+id/lv_Contacts"
+        android:id="@+id/lv_Contacts_Add"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

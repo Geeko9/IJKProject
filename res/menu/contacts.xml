@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
+        android:id="@+id/action_add"
+        android:title="추가"
+        app:showAsAction="ifRoom|withText"/>
+    <item
         android:id="@+id/action_del"
         android:title="삭제"
         app:showAsAction="ifRoom|withText"/>

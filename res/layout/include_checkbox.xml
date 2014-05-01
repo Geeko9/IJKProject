@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<include xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <include android:id="@+android:id/simple_list_item_multiple_choice"
+        android:background="@android:color/black"
+        android:alpha="1"/>"
+
+</include>

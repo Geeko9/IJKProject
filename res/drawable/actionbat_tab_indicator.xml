@@ -9,15 +9,15 @@
           android:drawable="@color/Sub" />
     <item android:state_focused="false" android:state_selected="true"
           android:state_pressed="false"
-          android:drawable="@color/Main" />
+          android:drawable="@color/Dark" />
 
     <!-- Focused states (such as when focused with a d-pad or mouse hover) -->
     <item android:state_focused="true" android:state_selected="false"
           android:state_pressed="false"
-          android:drawable="@color/Main" />
+          android:drawable="@color/Dark" />
     <item android:state_focused="true" android:state_selected="true"
           android:state_pressed="false"
-          android:drawable="@color/Main" />
+          android:drawable="@color/Dark" />
 
 
 <!-- STATES WHEN BUTTON IS PRESSED -->
@@ -25,17 +25,17 @@
     <!-- Non focused states -->
     <item android:state_focused="false" android:state_selected="false"
           android:state_pressed="true"
-          android:drawable="@color/Main" />
+          android:drawable="@color/Dark" />
     <item android:state_focused="false" android:state_selected="true"
         android:state_pressed="true"
-        android:drawable="@color/Main" />
+        android:drawable="@color/Dark" />
 
     <!-- Focused states (such as when focused with a d-pad or mouse hover) -->
     <item android:state_focused="true" android:state_selected="false"
           android:state_pressed="true"
-          android:drawable="@color/Main" />
+          android:drawable="@color/Dark" />
     <item android:state_focused="true" android:state_selected="true"
           android:state_pressed="true"
-          android:drawable="@color/Main" />
+          android:drawable="@color/Dark" />
 
 </selector>
