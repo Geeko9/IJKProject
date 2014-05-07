@@ -111,7 +111,6 @@ public class ListViewAdapter_Main extends BaseAdapter {
 		} else if (mData.getStatus().equals("free")) {
 			convertView.setBackgroundColor(0x5540B553);
 		}
-
 		return convertView;
 	}
 

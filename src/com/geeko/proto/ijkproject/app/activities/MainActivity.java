@@ -25,14 +25,13 @@ public class MainActivity extends ActionBarActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
 
 		if (savedInstanceState == null) {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
 	}
-	
+
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		return super.onPrepareOptionsMenu(menu);
@@ -51,17 +50,25 @@ public class MainActivity extends ActionBarActivity {
 		if (id == R.id.action_settings) {
 			intent = new Intent(MainActivity.this, SettingActivity.class);
 			MainActivity.this.startActivity(intent);
-			overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+			overridePendingTransition(android.R.anim.fade_in,
+					android.R.anim.fade_out);
 			return true;
 		} else if (id == R.id.action_contacts) {
 			intent = new Intent(MainActivity.this, ContactsActivity.class);
 			MainActivity.this.startActivity(intent);
-			overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+			overridePendingTransition(android.R.anim.fade_in,
+					android.R.anim.fade_out);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-	
+
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		Intent i = new Intent(MainActivity.this, MainActivity.class);
+		startActivity(i);
+		finish();
+	}
 
 }

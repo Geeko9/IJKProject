@@ -2,6 +2,7 @@ package com.geeko.proto.ijkproject.app.activities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -32,7 +33,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		init();
 	}
 
@@ -115,6 +116,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 				}
 				list.add(new Profile(phoneNum[key], name[key]));
 			}
+			String[] strArr = { "busy", "free", "local" };
 			if (list != null) {
 				for (int j = 0; j < list.size(); j++) {
 					values.put(Table.UsersTableEntry.COLUMN_NAME_PHONE, list
@@ -125,8 +127,11 @@ public class ContactsAddActivity extends ActionBarActivity {
 							0);
 					values.put(Table.UsersTableEntry.COLUMN_NAME_REGION, "");
 					values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
-							"local");
+							strArr[new Random().nextInt(3)]);
+					// values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
+					// "local");
 
+					
 					db.insert(Table.UsersTableEntry.TABLE_NAME, null, values);
 					// MainActivity.mAdapter.notifyDataSetChanged();
 				}
