@@ -21,6 +21,7 @@ public final class Table {
     public static abstract class UsersTableEntry implements BaseColumns {
         public static final String TABLE_NAME = "users";
         public static final String COLUMN_NAME_ENTRY_ID = "id";
+        public static final String COLUMN_NAME_FOREIGN_KEY = "id_from_device"; 
         public static final String COLUMN_NAME_PHONE = "phonenum";
         public static final String COLUMN_NAME_NAME = "name";
         public static final String COLUMN_NAME_REGION = "region";

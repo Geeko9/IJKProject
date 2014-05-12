@@ -115,9 +115,12 @@ public class SettingActivity extends Activity {
 				Intent i = getBaseContext().getPackageManager()
 						.getLaunchIntentForPackage(
 								getBaseContext().getPackageName());
-				finish();
+				finishAffinity();
+				//finish();
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				
 				startActivity(i);
+				
 			} else {
 			}
 		}
