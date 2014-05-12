@@ -1,12 +1,18 @@
 package com.geeko.proto.ijkproject.app.activities;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.simpleframework.xml.Serializer;
+import org.simpleframework.xml.core.Persister;
+
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -21,6 +27,9 @@ import com.geeko.proto.ijkproject.R;
 import com.geeko.proto.ijkproject.app.MyApplication;
 import com.geeko.proto.ijkproject.app.data.GetContacts;
 import com.geeko.proto.ijkproject.app.data.db.Table;
+import com.geeko.proto.ijkproject.app.network.FriendListUpdate;
+import com.geeko.proto.ijkproject.app.network.HttpRequest;
+import com.geeko.proto.ijkproject.app.network.PhoneNumber;
 import com.geeko.proto.ijkproject.app.network.Profile;
 
 public class ContactsAddActivity extends ActionBarActivity {
@@ -101,21 +110,32 @@ public class ContactsAddActivity extends ActionBarActivity {
 					.getWritableDatabase();
 			ContentValues values = new ContentValues();
 			List<Profile> list = new ArrayList<Profile>();
+			List<PhoneNumber> list2 = new ArrayList<PhoneNumber>();
 
-			int size = checked.size(); // number of name-value pairs in the
-										// array
+			int size = checked.size();
 			for (int i = 0; i < size; i++) {
 				int key = checked.keyAt(i);
 				boolean value = checked.get(key);
 				if (value) {
-					// Toast.makeText(MyApplication.getContext(),
-					// "�대쫫: " + name[key] + " �꾪솕踰덊샇: " + phoneNum[key],
-					// Toast.LENGTH_SHORT).show();
 					phoneNum[key].replaceAll("-", "");
 					phoneNum[key].replaceFirst("010", "+82");
 				}
 				list.add(new Profile(phoneNum[key], name[key]));
+				list2.add(new PhoneNumber(phoneNum[key]));
 			}
+
+			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
+			try {
+				Serializer serializer = new Persister();
+				serializer.write(new FriendListUpdate(list2, null), byteOutput);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+			if (new FrinedListUpdateTask().execute(byteOutput.toString())
+					.equals("200")) {
+			}
+
 			String[] strArr = { "busy", "free", "local" };
 			if (list != null) {
 				for (int j = 0; j < list.size(); j++) {
@@ -128,22 +148,44 @@ public class ContactsAddActivity extends ActionBarActivity {
 					values.put(Table.UsersTableEntry.COLUMN_NAME_REGION, "");
 					values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
 							strArr[new Random().nextInt(3)]);
-					// values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
-					// "local");
 
-					
 					db.insert(Table.UsersTableEntry.TABLE_NAME, null, values);
-					// MainActivity.mAdapter.notifyDataSetChanged();
 				}
 			}
-			// if (listBooleanArray != null) {
-			// List<Profile> list;
-			// for (int i = 0; i < listBooleanArray.size(); i++) {
-			// mListView.getItemAtPosition(listBooleanArray.get(i))
-			// }
-			// }
 		}
 		finish();
 		return super.onOptionsItemSelected(item);
+	}
+
+	public class FrinedListUpdateTask extends AsyncTask<String, Void, String> {
+
+		HttpRequest httpRequest = new HttpRequest();
+
+		@Override
+		protected String doInBackground(String... params) {
+			String result = null;
+			try {
+				result = httpRequest.httpRequestPut("friendlist/", null,
+						params[0]);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			return result;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			super.onPostExecute(result);
+			if (result != null) {
+				if (result.equals("200")) {
+					Toast.makeText(MyApplication.getContext(), "리스트 업로드 성공",
+							Toast.LENGTH_SHORT).show();
+				} else {
+					Toast.makeText(MyApplication.getContext(),
+							"네트워크 에러" + "\n" + "데이터 네트워크 확인 바랍니다." + result,
+							Toast.LENGTH_SHORT).show();
+				}
+			}
+		}
 	}
 }

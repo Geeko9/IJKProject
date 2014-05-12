@@ -1,11 +1,13 @@
 package com.geeko.proto.ijkproject.app.network;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -18,6 +20,7 @@ import org.apache.http.util.EntityUtils;
 
 import android.util.Log;
 
+import com.geeko.proto.ijkproject.app.MyApplication;
 import com.geeko.proto.ijkproject.app.data.GetUserInfo;
 
 /**
@@ -84,35 +87,41 @@ public class HttpRequest {
 
 	public String httpRequestPut(String path, List nameValue, String body)
 			throws IOException {
-		// String testUrl = "http://54.199.134.156:3000/ijk/test/";
-		//
+
 		HttpPut put = new HttpPut(url + path);
 		put.setHeader("Content-Type", "application/xml; charset=UTF-8");
-		// HttpPost post = new HttpPost(testUrl);
 
-		if (nameValue != null) {
-			// params.add(new BasicNameValuePair("PhoneNumber", "01012345678"));
-			// UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params,
-			// HTTP.UTF_8);
-			// put.setEntity(ent);
-		} else if (body != null) {
+		params = new ArrayList<BasicNameValuePair>();
+
+		if (path.equals("friendlist/")) {
+			params.add(new BasicNameValuePair("phoneno", new GetUserInfo()
+					.getNomalNumber()));
+			params.add(new BasicNameValuePair("signkey", MyApplication
+					.getUserSharedPreference().getString(
+							MyApplication.PREFERENCE_SIGN_KEY, null)));
+
+			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params,
+					HTTP.UTF_8);
+			System.out.println(body);
+			put.setEntity(ent);
+		}
+		if (body != null) {
 			StringEntity ent = new StringEntity(body, HTTP.UTF_8);
 			put.setEntity(ent);
-			System.out.println(body);
 		} else {
 			return null;
 		}
 
-		HttpResponse responsePost = client.execute(put);
-		HttpEntity resEntity = responsePost.getEntity();
+		HttpResponse responsePut = client.execute(put);
+		HttpEntity resEntity = responsePut.getEntity();
 
 		if (resEntity != null) {
 			String res = EntityUtils.toString(resEntity, HTTP.UTF_8);
 			// String res = EntityUtils.toString(resEntity);
 			// System.out.println(res);
-			return String.valueOf(responsePost.getStatusLine().getStatusCode());
+			return String.valueOf(responsePut.getStatusLine().getStatusCode());
 		}
-		return String.valueOf(responsePost.getStatusLine().getStatusCode());
+		return String.valueOf(responsePut.getStatusLine().getStatusCode());
 	}
 
 	public String httpRequestGet(String path, String str) throws IOException {
@@ -139,8 +148,8 @@ public class HttpRequest {
 	public String getRes() {
 		return this.res;
 	}
-	
-	public String getStatusCode(HttpResponse httpResponse){
+
+	public String getStatusCode(HttpResponse httpResponse) {
 		return String.valueOf(httpResponse.getStatusLine().getStatusCode());
 	}
 }

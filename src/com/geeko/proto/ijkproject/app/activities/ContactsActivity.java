@@ -236,9 +236,6 @@ public class ContactsActivity extends ActionBarActivity implements
 				}
 			};
 
-			// ArrayAdapter mAdapter = new
-			// ArrayAdapter<Profile>(MyApplication.getContext(),
-			// android.R.layout.simple_list_item_1)
 			adapter.addAll(nameList);
 			listView.setAdapter(adapter);
 

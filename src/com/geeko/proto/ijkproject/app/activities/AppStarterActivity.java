@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.widget.EditText;
 
 import com.geeko.proto.ijkproject.R;
 import com.geeko.proto.ijkproject.app.MyApplication;
@@ -27,7 +28,7 @@ public class AppStarterActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_stater);
-
+		
 		new AppStarterAsyncTask().execute();
 	}
 

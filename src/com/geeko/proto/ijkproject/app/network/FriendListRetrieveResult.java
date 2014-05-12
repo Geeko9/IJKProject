@@ -14,15 +14,9 @@ import org.simpleframework.xml.Root;
 @Root
 public class FriendListRetrieveResult {
 
-	@Element
-	private int Status;
-
 	@ElementList
 	private List<Profile> FriendList;
 
-	public int getStatus() {
-		return Status;
-	}
 
 	public List<Profile> getFriendList() {
 		return FriendList;

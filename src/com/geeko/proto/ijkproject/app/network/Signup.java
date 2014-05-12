@@ -8,7 +8,7 @@ import org.simpleframework.xml.Root;
  * @version 1.1 April 23 2014
  * @since 1.1
  */
-@Root
+@Root(name = "Signup")
 public class Signup {
 
 	@Element

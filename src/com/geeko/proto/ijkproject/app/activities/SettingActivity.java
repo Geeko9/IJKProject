@@ -4,13 +4,10 @@ import java.io.IOException;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -110,12 +107,15 @@ public class SettingActivity extends Activity {
 				MyApplication.getUserSharedPreference().edit()
 						.putString(MyApplication.PREFERENCE_SIGN_KEY, "")
 						.commit();
+
+				MyApplication.getContext().deleteDatabase("PMS.db");
 				Toast.makeText(SettingActivity.this, "삭제가 완료되었습니다.",
 						Toast.LENGTH_SHORT).show();
 
 				Intent i = getBaseContext().getPackageManager()
 						.getLaunchIntentForPackage(
 								getBaseContext().getPackageName());
+				finish();
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(i);
 			} else {
