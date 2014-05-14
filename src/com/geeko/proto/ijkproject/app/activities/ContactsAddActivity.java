@@ -120,6 +120,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 				boolean value = checked.get(key);
 				if (value) {
 					phoneNum[key].replaceAll("-", "");
+					
 					phoneNum[key].replaceFirst("010", "8210");
 				}
 				list.add(new Profile(phoneNum[key], name[key], _id[key]));

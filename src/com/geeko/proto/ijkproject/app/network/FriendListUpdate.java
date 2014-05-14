@@ -5,13 +5,13 @@ import java.util.List;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
-@Root
+@Root(name = "FriendListUpdate")
 public class FriendListUpdate {
 
-	@ElementList
+	@ElementList(required = false)
 	private List<PhoneNumber> NewFriend;
 
-	@ElementList
+	@ElementList(required = false)
 	private List<PhoneNumber> DelFriend;
 
 	public List<PhoneNumber> getNewFriend() {
@@ -26,5 +26,4 @@ public class FriendListUpdate {
 		this.NewFriend = listNew;
 		this.DelFriend = listDel;
 	}
-
 }

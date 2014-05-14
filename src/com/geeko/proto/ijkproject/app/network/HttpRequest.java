@@ -94,16 +94,23 @@ public class HttpRequest {
 		params = new ArrayList<BasicNameValuePair>();
 
 		if (path.equals("friendlist/")) {
-			params.add(new BasicNameValuePair("phoneno", new GetUserInfo()
-					.getNomalNumber()));
-			params.add(new BasicNameValuePair("signkey", MyApplication
-					.getUserSharedPreference().getString(
-							MyApplication.PREFERENCE_SIGN_KEY, null)));
-
-			UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params,
-					HTTP.UTF_8);
-			System.out.println(body);
-			put.setEntity(ent);
+			// params.add(new BasicNameValuePair("phoneno", new GetUserInfo()
+			// .getNomalNumber()));
+			// params.add(new BasicNameValuePair("signkey", MyApplication
+			// .getUserSharedPreference().getString(
+			// MyApplication.PREFERENCE_SIGN_KEY, null)));
+			//
+			// UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params,
+			// HTTP.UTF_8);
+			// // System.out.println(body);
+			// put.setEntity(ent);
+			put = new HttpPut(url
+					+ path
+					+ "?phoneno="
+					+ new GetUserInfo().getNomalNumber()
+					+ "&signkey="
+					+ MyApplication.getUserSharedPreference().getString(
+							MyApplication.PREFERENCE_SIGN_KEY, null));
 		}
 		if (body != null) {
 			StringEntity ent = new StringEntity(body, HTTP.UTF_8);
