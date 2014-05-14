@@ -23,6 +23,8 @@ public class Profile implements Comparable<Profile> {
 
 	@Element(required = false)
 	private int WorkingPeriod;
+	
+	private int _id;
 
 	public void setUserStatus(String userStatus) {
 		UserStatus = userStatus;
@@ -68,11 +70,25 @@ public class Profile implements Comparable<Profile> {
 		return WorkingPeriod;
 	}
 
+	public int get_id() {
+		return _id;
+	}
+
+	public void set_id(int _id) {
+		this._id = _id;
+	}
+
 	@Override
 	public int compareTo(Profile another) {
 		return UserStatus.compareTo(another.getUserStatus());
 	}
 
+	public Profile(String phoneNumber, String nickName, int _id) {
+		this.setPhoneNumber(phoneNumber);
+		this.setNickName(nickName);
+		this.set_id(_id);
+	}
+	
 	public Profile(String phoneNumber, String nickName) {
 		this.setPhoneNumber(phoneNumber);
 		this.setNickName(nickName);

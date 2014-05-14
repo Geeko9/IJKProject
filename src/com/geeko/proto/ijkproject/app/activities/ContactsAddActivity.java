@@ -34,6 +34,7 @@ import com.geeko.proto.ijkproject.app.network.Profile;
 public class ContactsAddActivity extends ActionBarActivity {
 	String tag = null;
 	ListView listView;
+	int[] _id;
 	String[] name;
 	String[] phoneNum;
 	String[] mergeInfo;
@@ -54,6 +55,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 		int end = cursor.getCount();
 		Log.d(tag, "end = " + end);
 
+		_id = new int[end];
 		name = new String[end];
 		phoneNum = new String[end];
 		mergeInfo = new String[end];
@@ -68,6 +70,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 				int id = cursor.getInt(idIndex);
 
 				if (cursor.getString(2).equals("1")) {
+					_id[count] = id;
 					name[count] = cursor.getString(1);
 					phoneNum[count] = cursor.getString(3);
 					mergeInfo[count] = cursor.getString(1) + " "
@@ -117,9 +120,9 @@ public class ContactsAddActivity extends ActionBarActivity {
 				boolean value = checked.get(key);
 				if (value) {
 					phoneNum[key].replaceAll("-", "");
-					phoneNum[key].replaceFirst("010", "+82");
+					phoneNum[key].replaceFirst("010", "8210");
 				}
-				list.add(new Profile(phoneNum[key], name[key]));
+				list.add(new Profile(phoneNum[key], name[key], _id[key]));
 				list2.add(new PhoneNumber(phoneNum[key]));
 			}
 
@@ -138,6 +141,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 			String[] strArr = { "busy", "free", "local" };
 			if (list != null) {
 				for (int j = 0; j < list.size(); j++) {
+					values.put(Table.UsersTableEntry.COLUMN_NAME_FOREIGN_KEY, list.get(j).get_id());
 					values.put(Table.UsersTableEntry.COLUMN_NAME_PHONE, list
 							.get(j).getPhoneNumber());
 					values.put(Table.UsersTableEntry.COLUMN_NAME_NAME, list
@@ -152,6 +156,10 @@ public class ContactsAddActivity extends ActionBarActivity {
 							"local");
 
 					db.insert(Table.UsersTableEntry.TABLE_NAME, null, values);
+
+					Log.i("DB insert check!!", "_id: " + list.get(j).get_id()
+							+ " phone: " + list.get(j).getPhoneNumber()
+							+ " name: " + list.get(j).getNickName());
 				}
 			}
 		}
@@ -169,6 +177,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 			try {
 				result = httpRequest.httpRequestPut("friendlist/", null,
 						params[0]);
+				System.out.println("XML String Test: "+params[0]);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -1,27 +1,26 @@
 package com.geeko.proto.ijkproject.app.data;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.content.CursorLoader;
+import android.util.Log;
 
 import com.geeko.proto.ijkproject.app.MyApplication;
 import com.geeko.proto.ijkproject.app.data.db.Table.UsersTableEntry;
 import com.geeko.proto.ijkproject.app.data.db.UsersTableDbHelper;
-import com.geeko.proto.ijkproject.app.network.Profile;
 
 public class GetContacts {
 	String tag = null;
-	private static String[] userLists;
+	public static int size = 0;
 
-	public static String[] getUserList() {
-		userLists = null;
-
-		List<Profile> nameList = new ArrayList<Profile>();
+	public static String getUserList() {
+		ArrayList userLists = new ArrayList<String>();
+		// userLists = null;
+		// List<Profile> nameList = new ArrayList<Profile>();
 		UsersTableDbHelper helper = MyApplication.getDbHelper();
 		// Select All Query
 		String selectQuery = "SELECT "
@@ -32,11 +31,18 @@ public class GetContacts {
 		// looping through all rows and adding to list
 		int counter = 0;
 		if (cursor.moveToFirst()) {
+			// userLists = new String[cursor.getCount()];
 			do {
-				userLists[counter] = String.valueOf(cursor.getInt(0));
+				userLists.add(String.valueOf(cursor.getInt(0)));
+				Log.i("User _id show!", String.valueOf(cursor.getInt(0)));
+				// userLists[counter] = String.valueOf(cursor.getInt(0));
+				counter++;
+				size = counter;
 			} while (cursor.moveToNext());
-		}// return contact list
-		return userLists;
+		}
+		System.out.println(userLists.toString());
+		// return contact list
+		return userLists.toString();
 	}
 
 	public static Cursor getURI() {
@@ -48,14 +54,25 @@ public class GetContacts {
 				ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER,
 				ContactsContract.CommonDataKinds.Phone.NUMBER };
 
-		String selection = ContactsContract.CommonDataKinds.Phone._ID + "!=?";
-		String[] selectionArgs = getUserList();
+		String selection = null;
+		String selectionArgs = null;
+
+		selectionArgs = getUserList().replaceAll("\\[", "\\(");
+		selectionArgs = selectionArgs.replaceAll("\\]", "\\)");
+		System.out.println(selectionArgs);
+		if (selectionArgs != null) {
+			// selectionArgs = new String[getUserList().length];
+			selection = ContactsContract.CommonDataKinds.Phone._ID + " NOT IN "
+					+ selectionArgs;
+			// selectionArgs = getUserList();
+			// selectionArgs = ;
+		}
 		String sortOrder = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
 				+ " COLLATE LOCALIZED ASC";
 
 		CursorLoader cursorLoader = new CursorLoader(
 				MyApplication.getContext(), people, projection, selection,
-				selectionArgs, sortOrder);
+				null, sortOrder);
 		Cursor cursor = cursorLoader.loadInBackground();
 
 		return cursor;

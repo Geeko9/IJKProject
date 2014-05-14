@@ -1,10 +1,10 @@
 package com.geeko.proto.ijkproject.app.network;
 
-import org.simpleframework.xml.Element;
+import org.simpleframework.xml.Root;
 
 public class PhoneNumber {
 
-	@Element
+	@Root
 	private String PhoneNumber;
 
 	public String getPhoneNumber() {

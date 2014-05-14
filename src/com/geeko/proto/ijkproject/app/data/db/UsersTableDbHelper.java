@@ -18,7 +18,7 @@ public class UsersTableDbHelper extends SQLiteOpenHelper {
 	private static final String SQL_CREATE_ENTRIES = "CREATE TABLE "
 			+ Table.UsersTableEntry.TABLE_NAME + " ("
 			+ Table.UsersTableEntry.COLUMN_NAME_ENTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-			+ Table.UsersTableEntry.COLUMN_NAME_FOREIGN_KEY + INTEGER_TYPE + " UNIQUE, "
+			+ Table.UsersTableEntry.COLUMN_NAME_FOREIGN_KEY + INTEGER_TYPE + COMMA_SEP
 			+ Table.UsersTableEntry.COLUMN_NAME_PHONE + TEXT_TYPE + " UNIQUE, "
 			+ Table.UsersTableEntry.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP
 			+ Table.UsersTableEntry.COLUMN_NAME_REGION + TEXT_TYPE + COMMA_SEP
