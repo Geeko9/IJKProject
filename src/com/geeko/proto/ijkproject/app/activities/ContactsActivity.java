@@ -256,16 +256,14 @@ public class ContactsActivity extends ActionBarActivity implements
 		if (id == R.id.action_add) {
 			intent = new Intent(ContactsActivity.this,
 					ContactsAddActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			ContactsActivity.this.startActivity(intent);
-			overridePendingTransition(android.R.anim.fade_in,
-					android.R.anim.fade_out);
 			return true;
 		} else if (id == R.id.action_del) {
 			intent = new Intent(ContactsActivity.this,
 					ContactsDelActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			ContactsActivity.this.startActivity(intent);
-			overridePendingTransition(android.R.anim.fade_in,
-					android.R.anim.fade_out);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -297,5 +295,10 @@ public class ContactsActivity extends ActionBarActivity implements
 		Intent i = new Intent(ContactsActivity.this, ContactsActivity.class); // your class
 		startActivity(i);
 		finish();
+	}
+	@Override
+	protected void onResume() {
+		this.overridePendingTransition(0, 0);
+		super.onResume();
 	}
 }

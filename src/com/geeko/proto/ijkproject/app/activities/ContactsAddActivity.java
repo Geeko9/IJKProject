@@ -200,4 +200,9 @@ public class ContactsAddActivity extends ActionBarActivity {
 			}
 		}
 	}
+	@Override
+	protected void onResume() {
+		this.overridePendingTransition(0, 0);
+		super.onResume();
+	}
 }

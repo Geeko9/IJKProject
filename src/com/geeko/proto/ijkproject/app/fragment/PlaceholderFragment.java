@@ -3,22 +3,23 @@ package com.geeko.proto.ijkproject.app.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.geeko.proto.ijkproject.R;
 import com.geeko.proto.ijkproject.app.MyApplication;
+import com.geeko.proto.ijkproject.app.activities.ContactsAddActivity;
 import com.geeko.proto.ijkproject.app.data.ListViewAdapter_Main;
 import com.geeko.proto.ijkproject.app.data.db.Table.UsersTableEntry;
 import com.geeko.proto.ijkproject.app.data.db.UsersTableDbHelper;
@@ -32,6 +33,7 @@ public class PlaceholderFragment extends Fragment {
 
 	private ImageView profileImage;
 	private TextView profileLocation, profileName;
+	OnChangeListener mListener;
 
 	public PlaceholderFragment() {
 
@@ -71,6 +73,14 @@ public class PlaceholderFragment extends Fragment {
 		profileName.setText(MyApplication.getUserSharedPreference().getString(
 				MyApplication.PREFERENCE_NAME, "이름이 없습니다."));
 
+		profileName.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				mListener.onChange(1);
+			}
+		});
+
 		ListViewAdapter_Main adapter = new ListViewAdapter_Main(
 				MyApplication.getContext());
 
@@ -87,20 +97,41 @@ public class PlaceholderFragment extends Fragment {
 		// looping through all rows and adding to list
 		if (cursor.moveToFirst()) {
 			do {
-				// Profile profile = new Profile(cursor.getString(0));
-				// // contact.setNickName(cursor.getString(1));
-				// // Adding contact to list
-				// profile.setRegion(cursor.getString(1));
-				// profile.setUserStatus(cursor.getString(2));
-				// nameList.add(profile);
 				adapter.addItem(null, cursor.getString(0), cursor.getString(1),
 						cursor.getString(2), null, cursor.getString(3));
 			} while (cursor.moveToNext());
 		}// return contact list
 
-		// ArrayAdapter mAdapter = new
-		// ArrayAdapter<Profile>(MyApplication.getContext(),
-		// android.R.layout.simple_list_item_1)
-		listView.setAdapter(adapter);
+		if (adapter.isEmpty()) {
+			ImageView addFriends = (ImageView) getView().findViewById(
+					R.id.iv_Social_Add);
+			addFriends.setVisibility(0);
+			addFriends.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(getActivity(),
+							ContactsAddActivity.class);
+					getActivity().startActivity(intent);
+				}
+			});
+		} else {
+			listView.setAdapter(adapter);
+		}
+	}
+
+	public interface OnChangeListener {
+		public void onChange(int num);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+			mListener = (OnChangeListener) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnChangeListener");
+		}
 	}
 }

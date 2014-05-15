@@ -2,12 +2,15 @@ package com.geeko.proto.ijkproject.app.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.geeko.proto.ijkproject.R;
 import com.geeko.proto.ijkproject.app.fragment.PlaceholderFragment;
+import com.geeko.proto.ijkproject.app.fragment.UserDetailFragment;
 
 /**
  * Activity for managing friend list
@@ -19,7 +22,8 @@ import com.geeko.proto.ijkproject.app.fragment.PlaceholderFragment;
  * @version 1.1 April 18 2014
  * @since 1.0
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements
+		PlaceholderFragment.OnChangeListener {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,44 @@ public class MainActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+	}
+
+	public void fragmentReplace(int reqNewFragmentIndex) {
+
+		Fragment newFragment = null;
+
+		// Log.d(TAG, "fragmentReplace " + reqNewFragmentIndex);
+
+		newFragment = getFragment(reqNewFragmentIndex);
+
+		// replace fragment
+		final FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+
+		transaction.replace(R.id.container, newFragment);
+
+		// Commit the transaction
+		transaction.commit();
+
+	}
+
+	private Fragment getFragment(int idx) {
+		Fragment newFragment = null;
+
+		switch (idx) {
+		case 0:
+			newFragment = new PlaceholderFragment();
+			break;
+		case 1:
+			newFragment = new UserDetailFragment();
+			break;
+
+		default:
+			// Log.d(TAG, "Unhandle case");
+			break;
+		}
+
+		return newFragment;
 	}
 
 	@Override
@@ -49,15 +91,13 @@ public class MainActivity extends ActionBarActivity {
 		Intent intent;
 		if (id == R.id.action_settings) {
 			intent = new Intent(MainActivity.this, SettingActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			MainActivity.this.startActivity(intent);
-			overridePendingTransition(android.R.anim.fade_in,
-					android.R.anim.fade_out);
 			return true;
 		} else if (id == R.id.action_contacts) {
 			intent = new Intent(MainActivity.this, ContactsActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			MainActivity.this.startActivity(intent);
-			overridePendingTransition(android.R.anim.fade_in,
-					android.R.anim.fade_out);
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -71,4 +111,15 @@ public class MainActivity extends ActionBarActivity {
 		finish();
 	}
 
+	@Override
+	protected void onResume() {
+		this.overridePendingTransition(0, 0);
+		super.onResume();
+	}
+
+	@Override
+	public void onChange(int num) {
+		fragmentReplace(num);
+	}
+	 
 }

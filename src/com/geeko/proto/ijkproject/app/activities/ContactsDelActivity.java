@@ -59,4 +59,9 @@ public class ContactsDelActivity extends ActionBarActivity {
 		listView.setItemsCanFocus(false);
 		listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 	}
+	@Override
+	protected void onResume() {
+		this.overridePendingTransition(0, 0);
+		super.onResume();
+	}
 }

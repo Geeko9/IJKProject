@@ -229,4 +229,9 @@ public class SignUpActivity extends Activity {
 		}
 
 	}
+	@Override
+	protected void onResume() {
+		this.overridePendingTransition(0, 0);
+		super.onResume();
+	}
 }
