@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -150,11 +151,11 @@ public class ContactsAddActivity extends ActionBarActivity {
 					values.put(Table.UsersTableEntry.COLUMN_NAME_WORKINGPERIOD,
 							0);
 					values.put(Table.UsersTableEntry.COLUMN_NAME_REGION, "");
-					// values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
-					// strArr[new Random().nextInt(3)]);
-
 					values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
-							"local");
+					strArr[new Random().nextInt(3)]);
+
+					// values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
+					// "local");
 
 					db.insert(Table.UsersTableEntry.TABLE_NAME, null, values);
 

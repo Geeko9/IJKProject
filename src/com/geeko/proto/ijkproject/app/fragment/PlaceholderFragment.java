@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -62,12 +64,15 @@ public class PlaceholderFragment extends Fragment {
 				.getString(R.string.string_hint_search));
 		ListView listView = (ListView) getView().findViewById(
 				R.id.lv_Main_Friends);
+		LinearLayout mProfileBox = (LinearLayout) getView().findViewById(
+				R.id.linearlayout_main_profile);
 
 		profileLocation = (TextView) getView().findViewById(
 				R.id.tv_Main_Profile_Location);
 		profileName = (TextView) getView().findViewById(
 				R.id.tv_Main_Profile_Name);
 
+		mProfileBox.setBackgroundColor(0x5540B553);
 		profileLocation.setText(MyApplication.getUserSharedPreference()
 				.getString(MyApplication.PREFERENCE_REGION, "지역을 설정해 주세요"));
 		profileName.setText(MyApplication.getUserSharedPreference().getString(

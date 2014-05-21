@@ -48,6 +48,7 @@
         android:background="#FFDDDDDD" />
 
     <LinearLayout
+        android:id="@+id/linearlayout_main_profile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
