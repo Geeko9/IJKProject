@@ -1,7 +1,6 @@
 package com.geeko.proto.ijkproject.app.network;
 
 import org.simpleframework.xml.Element;
-import org.simpleframework.xml.Root;
 
 /**
  * @author Kim Seonyong
@@ -10,20 +9,20 @@ import org.simpleframework.xml.Root;
  */
 public class Profile implements Comparable<Profile> {
 
-	@Element
+	@Element(required = false)
 	private String PhoneNumber;
 
 	@Element(required = false)
 	private String NickName;
 
 	@Element(required = false)
-	private String UserStatus;
-
-	@Element(required = false)
 	private String Region;
 
 	@Element(required = false)
-	private int WorkingPeriod;
+	private String WorkingPeriod;
+
+	@Element(required = false)
+	private String UserStatus;
 
 	private int _id;
 
@@ -35,7 +34,7 @@ public class Profile implements Comparable<Profile> {
 		Region = region;
 	}
 
-	public void setWorkingPeriod(int workingPeriod) {
+	public void setWorkingPeriod(String workingPeriod) {
 		WorkingPeriod = workingPeriod;
 	}
 
@@ -67,7 +66,7 @@ public class Profile implements Comparable<Profile> {
 		return Region;
 	}
 
-	public int getWorkingPeriod() {
+	public String getWorkingPeriod() {
 		return WorkingPeriod;
 	}
 
@@ -97,5 +96,9 @@ public class Profile implements Comparable<Profile> {
 
 	public Profile(String nickName) {
 		this.setNickName(nickName);
+	}
+	
+	public Profile(){
+		
 	}
 }

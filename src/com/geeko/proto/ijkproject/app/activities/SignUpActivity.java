@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.geeko.proto.ijkproject.R;
 import com.geeko.proto.ijkproject.app.MyApplication;
+import com.geeko.proto.ijkproject.app.data.db.UsersTableDbHelper;
 import com.geeko.proto.ijkproject.app.network.HttpRequest;
 import com.geeko.proto.ijkproject.app.network.Signup;
 import com.geeko.proto.ijkproject.app.widgets.ClearableEditText;
@@ -150,6 +151,10 @@ public class SignUpActivity extends Activity {
 							.putString(MyApplication.PREFERENCE_PASSWORD,
 									cet_pass.getText().toString()).commit();
 
+					MyApplication.getUserSharedPreference().edit()
+							.putString(MyApplication.PREFERENCE_STATUS, "0")
+							.commit();
+
 					SignUpActivity.this.startActivity(new Intent(
 							SignUpActivity.this, MainActivity.class));
 					overridePendingTransition(android.R.anim.fade_in,
@@ -225,10 +230,13 @@ public class SignUpActivity extends Activity {
 							"네트워크 에러" + "\n" + "데이터 네트워크 확인 바랍니다." + result,
 							Toast.LENGTH_SHORT).show();
 				}
+				MyApplication.setDbHelper(new UsersTableDbHelper(MyApplication
+						.getContext()));
 			}
 		}
 
 	}
+
 	@Override
 	protected void onResume() {
 		this.overridePendingTransition(0, 0);

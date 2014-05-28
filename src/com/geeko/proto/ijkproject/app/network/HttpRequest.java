@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -94,18 +93,17 @@ public class HttpRequest {
 		params = new ArrayList<BasicNameValuePair>();
 
 		if (path.equals("friendlist/")) {
-			// params.add(new BasicNameValuePair("phoneno", new GetUserInfo()
-			// .getNomalNumber()));
-			// params.add(new BasicNameValuePair("signkey", MyApplication
-			// .getUserSharedPreference().getString(
-			// MyApplication.PREFERENCE_SIGN_KEY, null)));
-			//
-			// UrlEncodedFormEntity ent = new UrlEncodedFormEntity(params,
-			// HTTP.UTF_8);
-			// // System.out.println(body);
-			// put.setEntity(ent);
 			put = new HttpPut(url
 					+ path
+					+ "?phoneno="
+					+ new GetUserInfo().getNomalNumber()
+					+ "&signkey="
+					+ MyApplication.getUserSharedPreference().getString(
+							MyApplication.PREFERENCE_SIGN_KEY, null));
+		} else if (path.equals("profile/")) {
+			put = new HttpPut(url
+					+ path
+					+ new GetUserInfo().getNomalNumber()
 					+ "?phoneno="
 					+ new GetUserInfo().getNomalNumber()
 					+ "&signkey="
@@ -133,10 +131,13 @@ public class HttpRequest {
 
 	public String httpRequestGet(String path, String str) throws IOException {
 
-		HttpGet get;
+		HttpGet get = null;
 		if (path.equals("account/")) {
 			get = new HttpGet(url + path + "?phoneno="
 					+ new GetUserInfo().getNomalNumber() + "&passwd=" + str);
+		} else if (path.equals("getFriendList")) {
+			get = new HttpGet(url + "friendlist/" + "?phoneno="
+					+ new GetUserInfo().getNomalNumber() + "&signkey=" + str);
 		} else {
 			get = new HttpGet(url + path);
 		}

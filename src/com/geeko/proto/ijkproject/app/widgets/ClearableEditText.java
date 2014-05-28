@@ -26,7 +26,7 @@ import com.geeko.proto.ijkproject.R;
 public class ClearableEditText extends LinearLayout {
 
 	LayoutInflater inflater = null;
-	EditText et_text;
+	public EditText et_text;
 	ImageView iv_clear;
 
 	public ClearableEditText(Context context, AttributeSet attrs) {
@@ -108,5 +108,9 @@ public class ClearableEditText extends LinearLayout {
 	public void setMaxLength(int length) {
 		et_text.setFilters(new InputFilter[] { new InputFilter.LengthFilter(
 				length) });
+	}
+	
+	public EditText getEditText(){
+		return et_text;
 	}
 }

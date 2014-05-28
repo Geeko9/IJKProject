@@ -40,6 +40,10 @@ public class ListViewAdapter_Main extends BaseAdapter {
 		return mListData.get(position);
 	}
 
+	public ArrayList<Item> getItemList() {
+		return mListData;
+	}
+
 	@Override
 	public long getItemId(int position) {
 		return position;
@@ -82,16 +86,16 @@ public class ListViewAdapter_Main extends BaseAdapter {
 			holder.mIcon.setImageResource(R.drawable.ic_person);
 		}
 
-		//holder.mNameNPhone.setText(mData.getName() + " " + mData.getPhone());
+		// holder.mNameNPhone.setText(mData.getName() + " " + mData.getPhone());
 		holder.mNameNPhone.setText(mData.getName());
 		holder.mLocation.setText(mData.getLocation());
-		//holder.mMachine.setText(mData.getMachine());
+		// holder.mMachine.setText(mData.getMachine());
 
 		holder.phoneCall.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent = new Intent(Intent.ACTION_CALL)
-				.setData(Uri.parse("tel:" + mData.getPhone()));
+				intent = new Intent(Intent.ACTION_CALL).setData(Uri
+						.parse("tel:" + mData.getPhone()));
 				intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				mContext.startActivity(intent);
@@ -101,8 +105,8 @@ public class ListViewAdapter_Main extends BaseAdapter {
 		holder.sendSMS.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				intent = new Intent(Intent.ACTION_SENDTO, Uri
-						.parse("smsto:" + mData.getPhone())); 
+				intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"
+						+ mData.getPhone()));
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 				mContext.startActivity(intent);
 			}

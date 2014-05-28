@@ -25,6 +25,8 @@ import com.geeko.proto.ijkproject.app.fragment.UserDetailFragment;
 public class MainActivity extends ActionBarActivity implements
 		PlaceholderFragment.OnChangeListener {
 
+	public static int fragmentNum = 0;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,7 +54,6 @@ public class MainActivity extends ActionBarActivity implements
 
 		// Commit the transaction
 		transaction.commit();
-
 	}
 
 	private Fragment getFragment(int idx) {
@@ -61,9 +62,11 @@ public class MainActivity extends ActionBarActivity implements
 		switch (idx) {
 		case 0:
 			newFragment = new PlaceholderFragment();
+			fragmentNum = 0;
 			break;
 		case 1:
 			newFragment = new UserDetailFragment();
+			fragmentNum = 1;
 			break;
 
 		default:
@@ -121,5 +124,13 @@ public class MainActivity extends ActionBarActivity implements
 	public void onChange(int num) {
 		fragmentReplace(num);
 	}
-	 
+
+	@Override
+	public void onBackPressed() {
+
+		if (fragmentNum == 1)
+			fragmentReplace(0);
+		else
+			super.onBackPressed();
+	}
 }

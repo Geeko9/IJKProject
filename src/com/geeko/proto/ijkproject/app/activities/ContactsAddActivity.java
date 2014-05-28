@@ -65,6 +65,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 		if (cursor.moveToFirst()) {
 
 			int idIndex = cursor.getColumnIndex("_id");
+			String phoneNumber;
 
 			do {
 
@@ -73,9 +74,11 @@ public class ContactsAddActivity extends ActionBarActivity {
 				if (cursor.getString(2).equals("1")) {
 					_id[count] = id;
 					name[count] = cursor.getString(1);
-					phoneNum[count] = cursor.getString(3);
-					mergeInfo[count] = cursor.getString(1) + " "
-							+ cursor.getString(3);
+					phoneNumber = cursor.getString(3).replaceAll("-", "");
+					// phoneNumber.replaceAll("-", "");
+					// phoneNumber.replaceFirst("010", "8210");
+					phoneNum[count] = phoneNumber;
+					mergeInfo[count] = cursor.getString(1) + " " + phoneNumber;
 
 					Log.d(tag, "id=" + id + ", name[" + count + "]="
 							+ name[count] + ", phonenumber=" + phoneNum[count]);
@@ -104,6 +107,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 		int id = item.getItemId();
 
 		if (id == R.id.action_add) {
+
 			SparseBooleanArray checked = listView.getCheckedItemPositions();
 
 			// Toast.makeText(MyApplication.getContext(), checked.toString(),
@@ -115,19 +119,25 @@ public class ContactsAddActivity extends ActionBarActivity {
 			List<Profile> list = new ArrayList<Profile>();
 			List<PhoneNumber> list2 = new ArrayList<PhoneNumber>();
 
-			int size = checked.size();
-			for (int i = 0; i < size; i++) {
-				int key = checked.keyAt(i);
-				boolean value = checked.get(key);
-				if (value) {
-					phoneNum[key].replaceAll("-", "");
-					
-					phoneNum[key].replaceFirst("010", "8210");
-				}
-				list.add(new Profile(phoneNum[key], name[key], _id[key]));
-				list2.add(new PhoneNumber(phoneNum[key]));
-			}
+			if (checked != null) {
+				int size = checked.size();
+				for (int i = 0; i < size; i++) {
+					int key = checked.keyAt(i);
+					boolean value = checked.get(key);
+					if (value) {
+						if (phoneNum[key].lastIndexOf("010") == 0)
+							phoneNum[key].replaceFirst("010", "8210");
+						else if (phoneNum[key].lastIndexOf("011") == 0)
+							phoneNum[key].replaceFirst("011", "8210");
 
+						phoneNum[key].replaceAll("-", "");
+
+						list.add(new Profile(phoneNum[key], name[key], _id[key]));
+						list2.add(new PhoneNumber(phoneNum[key]));
+					}
+
+				}
+			}
 			ByteArrayOutputStream byteOutput = new ByteArrayOutputStream();
 			try {
 				Serializer serializer = new Persister();
@@ -143,7 +153,8 @@ public class ContactsAddActivity extends ActionBarActivity {
 			String[] strArr = { "busy", "free", "local" };
 			if (list != null) {
 				for (int j = 0; j < list.size(); j++) {
-					values.put(Table.UsersTableEntry.COLUMN_NAME_FOREIGN_KEY, list.get(j).get_id());
+					values.put(Table.UsersTableEntry.COLUMN_NAME_FOREIGN_KEY,
+							list.get(j).get_id());
 					values.put(Table.UsersTableEntry.COLUMN_NAME_PHONE, list
 							.get(j).getPhoneNumber());
 					values.put(Table.UsersTableEntry.COLUMN_NAME_NAME, list
@@ -151,11 +162,11 @@ public class ContactsAddActivity extends ActionBarActivity {
 					values.put(Table.UsersTableEntry.COLUMN_NAME_WORKINGPERIOD,
 							0);
 					values.put(Table.UsersTableEntry.COLUMN_NAME_REGION, "");
-					values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
-					strArr[new Random().nextInt(3)]);
-
 					// values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
-					// "local");
+					// strArr[new Random().nextInt(3)]);
+
+					values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
+							"local");
 
 					db.insert(Table.UsersTableEntry.TABLE_NAME, null, values);
 
@@ -179,7 +190,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 			try {
 				result = httpRequest.httpRequestPut("friendlist/", null,
 						params[0]);
-				System.out.println("XML String Test: "+params[0]);
+				System.out.println("XML String Test: " + params[0]);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -201,6 +212,7 @@ public class ContactsAddActivity extends ActionBarActivity {
 			}
 		}
 	}
+
 	@Override
 	protected void onResume() {
 		this.overridePendingTransition(0, 0);

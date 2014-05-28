@@ -88,6 +88,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textOff=""
+            android:textOn="" />
+
     </LinearLayout>
 
     <View
@@ -112,8 +120,8 @@
         android:layout_width="130dp"
         android:layout_height="128dp"
         android:layout_gravity="center_horizontal|center_vertical"
-        android:visibility="gone"
-        android:src="@drawable/ic_social_add_group_big" />
+        android:src="@drawable/ic_social_add_group_big"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/lv_Main_Friends"

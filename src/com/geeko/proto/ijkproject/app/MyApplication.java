@@ -102,4 +102,7 @@ public class MyApplication extends Application {
     public static UsersTableDbHelper getDbHelper() {
         return MyApplication.mDbHelper;
     }
+    public static void setDbHelper(UsersTableDbHelper dbHelper){
+    	mDbHelper = new UsersTableDbHelper(context);
+    }
 }

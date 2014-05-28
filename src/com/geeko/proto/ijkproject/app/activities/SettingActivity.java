@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.geeko.proto.ijkproject.R;
 import com.geeko.proto.ijkproject.app.MyApplication;
+import com.geeko.proto.ijkproject.app.data.db.UsersTableDbHelper;
 import com.geeko.proto.ijkproject.app.network.HttpRequest;
 import com.geeko.proto.ijkproject.app.widgets.ClearableEditText;
 
@@ -108,23 +110,35 @@ public class SettingActivity extends Activity {
 						.putString(MyApplication.PREFERENCE_SIGN_KEY, "")
 						.commit();
 
-				MyApplication.getContext().deleteDatabase("PMS.db");
+				new UsersTableDbHelper(MyApplication.getContext())
+						.deleteTable();
+				
+				
+				SQLiteDatabase db = new UsersTableDbHelper(MyApplication.getContext()).getWritableDatabase();
+				
+				new UsersTableDbHelper(MyApplication.getContext()).onUpgrade(db, 0, 0);
+				// MyApplication.setDbHelper(new
+				// UsersTableDbHelper(MyApplication.getContext()));
+				// // getApplicationContext().deleteDatabase("PMS");
 				Toast.makeText(SettingActivity.this, "삭제가 완료되었습니다.",
 						Toast.LENGTH_SHORT).show();
+
+				//new UsersTableDbHelper(MyApplication.getContext());
 
 				Intent i = getBaseContext().getPackageManager()
 						.getLaunchIntentForPackage(
 								getBaseContext().getPackageName());
 				finishAffinity();
-				//finish();
+				// finish();
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				
+
 				startActivity(i);
-				
+
 			} else {
 			}
 		}
 	}
+
 	@Override
 	protected void onResume() {
 		this.overridePendingTransition(0, 0);

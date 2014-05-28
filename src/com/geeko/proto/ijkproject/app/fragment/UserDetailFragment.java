@@ -1,12 +1,12 @@
 package com.geeko.proto.ijkproject.app.fragment;
 
-import com.geeko.proto.ijkproject.R;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.geeko.proto.ijkproject.R;
 
 public class UserDetailFragment extends Fragment {
 
@@ -27,5 +27,5 @@ public class UserDetailFragment extends Fragment {
 	private void init() {
 
 	}
-	
+
 }
