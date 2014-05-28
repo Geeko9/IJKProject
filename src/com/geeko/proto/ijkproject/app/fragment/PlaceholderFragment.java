@@ -400,9 +400,10 @@ public class PlaceholderFragment extends Fragment {
 									str2 += ", ";
 								}
 							}
-							machineList.add(str2);
+						
 							System.out.println("match check: "
 									+ mListData.get(j).getName() + " " + str2);
+							machineList.add(j, str2);
 							// Cursor c = db.rawQuery("select * from machines",
 							// null);
 							// c.moveToFirst();
