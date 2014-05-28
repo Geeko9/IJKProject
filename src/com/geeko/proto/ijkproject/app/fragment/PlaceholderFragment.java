@@ -43,6 +43,7 @@ import com.geeko.proto.ijkproject.app.data.db.Table.UsersTableEntry;
 import com.geeko.proto.ijkproject.app.data.db.UsersTableDbHelper;
 import com.geeko.proto.ijkproject.app.network.FriendListRetrieveResult;
 import com.geeko.proto.ijkproject.app.network.HttpRequest;
+import com.geeko.proto.ijkproject.app.network.Machine;
 import com.geeko.proto.ijkproject.app.network.Profile;
 import com.geeko.proto.ijkproject.app.network.ProfileUpdate;
 import com.geeko.proto.ijkproject.app.widgets.ClearableEditText;
@@ -191,6 +192,19 @@ public class PlaceholderFragment extends Fragment {
 		} else {
 			listView.setAdapter(adapter);
 
+			// selectQuery = "SELECT " + MachinesTableEntry.COLUMN_NAME_CODE
+			// + ", " + MachinesTableEntry.COLUMN_NAME_MODELNAME + ", "
+			// + MachinesTableEntry.COLUMN_NAME_TYPE + ", "
+			// + MachinesTableEntry.COLUMN_NAME_SIZE + " FROM "
+			// + MachinesTableEntry.TABLE_NAME;
+			// db = helper.getWritableDatabase();
+			// cursor = db.rawQuery(selectQuery, null);
+			// if (cursor.moveToFirst()) {
+			// do {
+			// System.out.println("머신 데이터 내용: " + cursor.getString(0) +
+			// cursor.getString(1) + cursor.getString(2) + cursor.getString(3));
+			// } while (cursor.moveToNext());
+			// }// return contact list
 		}
 
 		cet_search.et_text.addTextChangedListener(new TextWatcher() {
@@ -340,6 +354,8 @@ public class PlaceholderFragment extends Fragment {
 		protected void onPostExecute(String result) {
 			super.onPostExecute(result);
 			ArrayList<Item> mListData = adapter.getItemList();
+			ArrayList<String> machineList = new ArrayList<String>(
+					mListData.size());
 			ArrayList<Profile> mListData2 = new ArrayList<Profile>();
 			FriendListRetrieveResult friendListResult;
 			Serializer serializer = new Persister();
@@ -357,23 +373,106 @@ public class PlaceholderFragment extends Fragment {
 					.getWritableDatabase();
 			ContentValues values = new ContentValues();
 
-			for (int i = 0; i < mListData2.size(); i++) {
-				for (int j = 0; j < mListData.size(); j++) {
-					if (mListData2.get(i).getPhoneNumber()
-							.equals(mListData.get(j).getPhone())) {
+			if (mListData != null && mListData2 != null)
+				for (int i = 0; i < mListData2.size(); i++) {
+					for (int j = 0; j < mListData.size(); j++) {
+						System.out.println("mListData: "
+								+ mListData.get(j).getPhone());
+						System.out.println("mListData2: "
+								+ mListData2.get(i).getPhoneNumber());
+						String str2 = "";
+						if (mListData2.get(i).getPhoneNumber()
+								.equals(mListData.get(j).getPhone())) {
 
-						System.out.println("test");
-						values.put(Table.UsersTableEntry.COLUMN_NAME_STATUS,
-								mListData2.get(i).getUserStatus());
+							List<Machine> mList = new ArrayList<Machine>();
+							mList = mListData2.get(i).getOwnMachines();
+							int size = mList.size();
 
-						db.insert(Table.UsersTableEntry.TABLE_NAME, null,
-								values);
+							for (int k = 0; k < size; k++) {
+								Cursor c = db.rawQuery(
+										"select modelname from machines where id = "
+												+ "'"
+												+ mList.get(k).getMachineCode()
+												+ "'", null);
+								c.moveToFirst();
+								str2 += c.getString(0);
+								if (k != size - 1) {
+									str2 += ", ";
+								}
+							}
+							machineList.add(str2);
+							System.out.println("match check: "
+									+ mListData.get(j).getName() + " " + str2);
+							// Cursor c = db.rawQuery("select * from machines",
+							// null);
+							// c.moveToFirst();
+
+							// values.put(
+							// Table.OwnMachinesTableEntry.COLUMN_NAME_ENTRY_ID,
+							// mListData2.get(i).getPhoneNumber());
+							// values.put(
+							// Table.OwnMachinesTableEntry.COLUMN_NAME_ID_MACHINE,
+							// mListData2.get(i).getPhoneNumber());
+							// values.put(
+							// Table.OwnMachinesTableEntry.COLUMN_NAME_NUMMACHINE,
+							// mListData2.get(i).getPhoneNumber());
+							//
+							// String[] str = new String[1];
+							// str[0] = mListData.get(j).getPhone();
+							//
+							// db.update(Table.UsersTableEntry.TABLE_NAME,
+							// values,
+							// Table.UsersTableEntry.COLUMN_NAME_PHONE
+							// + "=" + str[0], null);
+
+							// // System.out.println("test");
+							// //
+							// values.put(Table.UsersTableEntry.COLUMN_NAME_PHONE,
+							// // mListData.get(j).getPhone());
+
+							// }
+							// machineList.add(j, str2);
+
+							values.put(
+									Table.UsersTableEntry.COLUMN_NAME_STATUS,
+									mListData2.get(i).getUserStatus());
+							String[] str = new String[1];
+							str[0] = mListData.get(j).getPhone();
+
+							db.update(Table.UsersTableEntry.TABLE_NAME, values,
+									Table.UsersTableEntry.COLUMN_NAME_PHONE
+											+ "=" + str[0], null);
+						} else {
+							machineList.add(null);
+						}
 					}
 				}
-			}
+			ListViewAdapter_Main adapter2 = new ListViewAdapter_Main(
+					MyApplication.getContext());
+			List<Profile> nameList = new ArrayList<Profile>();
+			UsersTableDbHelper helper = MyApplication.getDbHelper();
+			// Select All Query
+			String selectQuery = "SELECT " + UsersTableEntry.COLUMN_NAME_NAME
+					+ ", " + UsersTableEntry.COLUMN_NAME_PHONE + ", "
+					+ UsersTableEntry.COLUMN_NAME_REGION + ", "
+					+ UsersTableEntry.COLUMN_NAME_STATUS + " FROM "
+					+ UsersTableEntry.TABLE_NAME;
+			db = helper.getWritableDatabase();
+			Cursor cursor = db.rawQuery(selectQuery, null);
+			// looping through all rows and adding to list
+			int counter = 0;
+			if (cursor.moveToFirst()) {
+				do {
+					adapter2.addItem(null, cursor.getString(0),
+							cursor.getString(1), cursor.getString(2),
+							machineList.get(counter), cursor.getString(3));
+					counter++;
+				} while (cursor.moveToNext());
+			}// return contact list
 
-			adapter.notifyDataSetChanged();
-			System.out.println(mListData2.get(0).getUserStatus());
+			// adapter.notifyDataSetChanged();
+			listView.setAdapter(adapter2);
+			System.out.println(httpRequest.getRes());
 
 		}
 	}

@@ -126,9 +126,11 @@ public class ContactsAddActivity extends ActionBarActivity {
 					boolean value = checked.get(key);
 					if (value) {
 						if (phoneNum[key].lastIndexOf("010") == 0)
-							phoneNum[key].replaceFirst("010", "8210");
+							phoneNum[key] = phoneNum[key].replaceFirst("010",
+									"8210");
 						else if (phoneNum[key].lastIndexOf("011") == 0)
-							phoneNum[key].replaceFirst("011", "8210");
+							phoneNum[key] = phoneNum[key].replaceFirst("011",
+									"8210");
 
 						phoneNum[key].replaceAll("-", "");
 

@@ -1,15 +1,18 @@
 package com.geeko.proto.ijkproject.app.activities;
 
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.widget.EditText;
 
 import com.geeko.proto.ijkproject.R;
 import com.geeko.proto.ijkproject.app.MyApplication;
+import com.geeko.proto.ijkproject.app.data.db.MachineTableDbHelper;
+import com.geeko.proto.ijkproject.app.data.db.Table;
 
 /**
  * Activity for loading MainActivity and resources
@@ -23,12 +26,14 @@ import com.geeko.proto.ijkproject.app.MyApplication;
  */
 // 최초 실행 액티비티 로딩화면 구성 및 회원 가입 여부 확인하여 다음 액티비티를 확인하여 넘어가는 일을 수행한다.
 public class AppStarterActivity extends Activity {
-	
+
+	private MachineTableDbHelper machineDbHelper;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_app_stater);
-		
+
 		new AppStarterAsyncTask().execute();
 	}
 
@@ -37,6 +42,12 @@ public class AppStarterActivity extends Activity {
 
 		@Override
 		protected Void doInBackground(Void... params) {
+			// machineDbHelper = new MachineTableDbHelper(
+			// MyApplication.getContext());
+			//
+			
+			// ArrayList<E>
+
 			return null;
 		}
 
@@ -44,17 +55,21 @@ public class AppStarterActivity extends Activity {
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
 
-			if (!MyApplication.getUserSharedPreference().getBoolean(MyApplication.PREFERENCE_SIGNUP_CHECK, false)) {
-				intent = new Intent(AppStarterActivity.this, SignUpActivity.class);
+			if (!MyApplication.getUserSharedPreference().getBoolean(
+					MyApplication.PREFERENCE_SIGNUP_CHECK, false)) {
+				intent = new Intent(AppStarterActivity.this,
+						SignUpActivity.class);
 			} else {
 				intent = new Intent(AppStarterActivity.this, MainActivity.class);
 			}
-			
+
 			new Handler() {
 				@Override
 				public void handleMessage(Message msg) {
+
 					AppStarterActivity.this.startActivity(intent);
-					overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+					overridePendingTransition(android.R.anim.fade_in,
+							android.R.anim.fade_out);
 					AppStarterActivity.this.finish();
 				}
 			}.sendEmptyMessageDelayed(0, 1000);

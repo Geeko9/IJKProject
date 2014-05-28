@@ -88,7 +88,10 @@ public class ListViewAdapter_Main extends BaseAdapter {
 
 		// holder.mNameNPhone.setText(mData.getName() + " " + mData.getPhone());
 		holder.mNameNPhone.setText(mData.getName());
-		holder.mLocation.setText(mData.getLocation());
+		String text = mData.getLocation();
+		if (mData.getMachine() != null)
+			text = mData.getLocation() + " " + mData.getMachine();
+		holder.mLocation.setText(text);
 		// holder.mMachine.setText(mData.getMachine());
 
 		holder.phoneCall.setOnClickListener(new View.OnClickListener() {

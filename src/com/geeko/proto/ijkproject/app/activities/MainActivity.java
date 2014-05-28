@@ -117,6 +117,7 @@ public class MainActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		this.overridePendingTransition(0, 0);
+
 		super.onResume();
 	}
 
@@ -133,4 +134,5 @@ public class MainActivity extends ActionBarActivity implements
 		else
 			super.onBackPressed();
 	}
+
 }

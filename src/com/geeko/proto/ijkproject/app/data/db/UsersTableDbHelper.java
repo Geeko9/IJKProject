@@ -29,8 +29,31 @@ public class UsersTableDbHelper extends SQLiteOpenHelper {
 			+ COMMA_SEP + Table.UsersTableEntry.COLUMN_NAME_STATUS + TEXT_TYPE
 			+ " )";
 
+	private static final String SQL_CREATE_ENTRIES2 = "CREATE TABLE "
+			+ Table.MachinesTableEntry.TABLE_NAME + " ("
+			+ Table.MachinesTableEntry.COLUMN_NAME_ENTRY_ID
+			+ " INTEGER PRIMARY KEY AUTOINCREMENT, "
+			+ Table.MachinesTableEntry.COLUMN_NAME_CODE + TEXT_TYPE + "UNIQUE"
+			+ COMMA_SEP + Table.MachinesTableEntry.COLUMN_NAME_MODELNAME
+			+ TEXT_TYPE + COMMA_SEP + Table.MachinesTableEntry.COLUMN_NAME_TYPE
+			+ TEXT_TYPE + COMMA_SEP + Table.MachinesTableEntry.COLUMN_NAME_SIZE
+			+ TEXT_TYPE + " )";
+
+	private static final String SQL_CREATE_ENTRIES3 = "CREATE TABLE "
+			+ Table.OwnMachinesTableEntry.TABLE_NAME + " ("
+			+ Table.OwnMachinesTableEntry.COLUMN_NAME_ENTRY_ID + " TEXT,  "
+			+ Table.OwnMachinesTableEntry.COLUMN_NAME_ID_MACHINE + TEXT_TYPE
+			+ COMMA_SEP + Table.OwnMachinesTableEntry.COLUMN_NAME_NUMMACHINE
+			+ INTEGER_TYPE + " )";
+
 	private static final String SQL_DELETE_ENTRIES = "DROP TABLE IF EXISTS "
 			+ Table.UsersTableEntry.TABLE_NAME;
+
+	private static final String SQL_DELETE_ENTRIES2 = "DROP TABLE IF EXISTS "
+			+ Table.MachinesTableEntry.TABLE_NAME;
+	
+	private static final String SQL_DELETE_ENTRIES3 = "DROP TABLE IF EXISTS "
+			+ Table.OwnMachinesTableEntry.TABLE_NAME;
 
 	public UsersTableDbHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -38,17 +61,23 @@ public class UsersTableDbHelper extends SQLiteOpenHelper {
 
 	public void deleteTable() {
 		getWritableDatabase().execSQL(SQL_DELETE_ENTRIES);
+		getWritableDatabase().execSQL(SQL_DELETE_ENTRIES2);
+		getWritableDatabase().execSQL(SQL_DELETE_ENTRIES3);
 	}
 
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		// db.execSQL(SQL_DELETE_ENTRIES);
 		db.execSQL(SQL_CREATE_ENTRIES);
+		db.execSQL(SQL_CREATE_ENTRIES2);
+		db.execSQL(SQL_CREATE_ENTRIES3);
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		db.execSQL(SQL_DELETE_ENTRIES);
+		db.execSQL(SQL_DELETE_ENTRIES2);
+		db.execSQL(SQL_DELETE_ENTRIES3);
 		onCreate(db);
 	}
 }

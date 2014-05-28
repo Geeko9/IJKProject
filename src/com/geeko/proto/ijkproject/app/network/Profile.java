@@ -1,6 +1,9 @@
 package com.geeko.proto.ijkproject.app.network;
 
+import java.util.List;
+
 import org.simpleframework.xml.Element;
+import org.simpleframework.xml.ElementList;
 
 /**
  * @author Kim Seonyong
@@ -23,6 +26,17 @@ public class Profile implements Comparable<Profile> {
 
 	@Element(required = false)
 	private String UserStatus;
+
+	@ElementList(required = false)
+	private List<Machine> OwnMachines;
+
+	public List<Machine> getOwnMachines() {
+		return OwnMachines;
+	}
+
+	public void setOwnMachines(List<Machine> ownMachines) {
+		OwnMachines = ownMachines;
+	}
 
 	private int _id;
 
@@ -97,8 +111,8 @@ public class Profile implements Comparable<Profile> {
 	public Profile(String nickName) {
 		this.setNickName(nickName);
 	}
-	
-	public Profile(){
-		
+
+	public Profile() {
+
 	}
 }
